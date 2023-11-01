@@ -7,16 +7,6 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.centerRight,
-            end: Alignment.centerLeft,
-            colors: [
-              Color.fromARGB(255, 147, 67, 212),
-              Color.fromARGB(255, 191, 101, 207),
-            ],
-          ),
-        ),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,

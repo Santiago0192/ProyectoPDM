@@ -15,21 +15,21 @@ class CustomTextField extends StatelessWidget {
     this.obscureText = false,
   });
 
-  @override
+    @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
         labelText: labelText,
-        prefixIcon: Icon(prefixIcon, color: Color.fromARGB(255, 173, 116, 183)),
-        labelStyle: TextStyle(color: Color.fromARGB(255, 173, 116, 183)),
+        prefixIcon: Icon(prefixIcon, color: Theme.of(context).primaryColor), // Usa el color del tema
+        labelStyle: TextStyle(color: Theme.of(context).primaryColor), // Usa el color del tema
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20.0),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20.0),
           borderSide: BorderSide(
-            color: Color.fromARGB(255, 173, 116, 183),
+            color: Theme.of(context).primaryColor, // Usa el color del tema
             width: 2.0,
           ),
         ),

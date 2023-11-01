@@ -15,7 +15,6 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _isChecked = false;
 
   final TextEditingController _nameController = TextEditingController();
@@ -30,21 +29,21 @@ class _SignUpPageState extends State<SignUpPage> {
   // Función para guardar los datos en JSON
   Future<void> _saveFormData() async {
     //if (_formKey.currentState!.validate()) {
-      //Datos del usuario
-      final userData = {
-        'nombre': _nameController.text,
-        'apellido': _name2Controller.text,
-        'fecha_nacimiento': _birthController.text,
-        'ocupacion': _ocupacionController.text,
-        'ingresos': _ingresosController.text,
-        'correo': _emailController.text,
-        'contrasena': _contraController.text,
-        'contrasena2': _contra2Controller.text,
-      };
+    //Datos del usuario
+    final userData = {
+      'nombre': _nameController.text,
+      'apellido': _name2Controller.text,
+      'fecha_nacimiento': _birthController.text,
+      'ocupacion': _ocupacionController.text,
+      'ingresos': _ingresosController.text,
+      'correo': _emailController.text,
+      'contrasena': _contraController.text,
+      'contrasena2': _contra2Controller.text,
+    };
 
-      await saveDataToJSON(userData);
+    await saveDataToJSON(userData);
 
-      // Mostrar una confirmación o realizar otras acciones después de guardar los datos
+    // Mostrar una confirmación o realizar otras acciones después de guardar los datos
     //}
   }
 
@@ -69,7 +68,8 @@ class _SignUpPageState extends State<SignUpPage> {
       context: context,
       builder: (context) => BasicDialogAlert(
         title: const Text("Permiso Requerido"),
-        content: const Text("Autorizar permiso para escribir en la memoria del dispositivo."),
+        content: const Text(
+            "Autorizar permiso para escribir en la memoria del dispositivo."),
         actions: <Widget>[
           BasicDialogAction(
             onPressed: () {
@@ -80,9 +80,9 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
           BasicDialogAction(
             onPressed: () {
-            setState(() {
-              _isChecked = false;
-            });
+              setState(() {
+                _isChecked = false;
+              });
               Navigator.of(context).pop();
             },
             title: const Text("Cancelar"),
@@ -96,16 +96,6 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.centerRight,
-            end: Alignment.centerLeft,
-            colors: [
-              Color.fromARGB(255, 147, 67, 212),
-              Color.fromARGB(255, 191, 101, 207),
-            ],
-          ),
-        ),
         child: Center(
           child: SingleChildScrollView(
             child: Column(
@@ -166,7 +156,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         CustomTextField(
                           labelText: 'Correo',
                           prefixIcon: Icons.email,
-                          keyboardType: TextInputType.text,//emailAddress,
+                          keyboardType: TextInputType.text, //emailAddress,
                           controller: _emailController,
                         ),
                         const SizedBox(height: 16.0),
@@ -186,12 +176,11 @@ class _SignUpPageState extends State<SignUpPage> {
                           controller: _contra2Controller,
                         ),
                         const SizedBox(height: 16.0),
-
                         ElevatedButton(
-                          onPressed: _saveFormData, // Llama a la función para guardar datos
+                          onPressed:
+                              _saveFormData, // Llama a la función para guardar datos
                           child: const Text('Guardar'),
                         ),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
