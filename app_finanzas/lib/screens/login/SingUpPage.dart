@@ -8,6 +8,7 @@ import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -51,13 +52,13 @@ class _SignUpPageState extends State<SignUpPage> {
   Future<void> saveDataToJSON(Map<String, dynamic> data) async {
     // Obtener el directorio de documentos en el dispositivo
     final Directory directory = await getApplicationDocumentsDirectory();
-    final file = File('${directory.path}/data.json');
+    //final file = File('${directory.path}/data.json');
 
     // Convertir los datos a una cadena JSON
     final jsonData = json.encode(data);
 
     // Escribir los datos en el archivo
-    await file.writeAsString(jsonData);
+    //await file.writeAsString(jsonData);
 
     print('Datos guardados en el archivo JSON');
   }
@@ -72,9 +73,19 @@ class _SignUpPageState extends State<SignUpPage> {
             "Autorizar permiso para escribir en la memoria del dispositivo."),
         actions: <Widget>[
           BasicDialogAction(
-            onPressed: () {
+            onPressed: () async{
               Navigator.of(context).pop();
               //Agregar permiso necesario
+              PermissionStatus  storageStatus = await Permission.storage.request();
+              if (storageStatus == PermissionStatus.granted){
+
+              }
+              if (storageStatus == PermissionStatus.denied){
+                
+              }
+              if (storageStatus == PermissionStatus.permanentlyDenied){
+                openAppSettings();
+              }
             },
             title: const Text("Aceptar"),
           ),
