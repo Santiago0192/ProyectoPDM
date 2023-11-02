@@ -24,7 +24,7 @@ return GestureDetector(
       ),
       child: Row(
         children: [
-          Icon(icon, color: Colors.purple),
+          Icon(icon),
           const SizedBox(width: 16.0),
           Text(
             texto,
