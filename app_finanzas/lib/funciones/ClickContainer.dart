@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 Widget buildClickableContainer({
   required IconData icon,
   required String texto,
-  required VoidCallback onTap,
+  //required VoidCallback onTap,
 }) {
 return GestureDetector(
     //onTap: onTap,

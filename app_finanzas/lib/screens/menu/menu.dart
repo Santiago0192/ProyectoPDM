@@ -15,7 +15,7 @@ class _MyPageState extends State<MyPage> {
    int _selectedPage = 0;
 
   final List<Widget> _pages = [
-    resumen(),
+    Resumen(),
     historial(),
     categorias(),
     Configuracion(),

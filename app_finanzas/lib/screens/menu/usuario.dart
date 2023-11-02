@@ -26,12 +26,12 @@ class Configuracion extends StatelessWidget {
               const SizedBox(height: 8),
               ElevatedButton(
                 onPressed: () {
-                  themeModel.setTheme(originalTheme);
+                  themeModel.setTheme(countryTheme);
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: originalTheme.primaryColor,
+                  primary: countryTheme.primaryColor,
                 ),
-                child: const Text('Tema Original'),
+                child: const Text('Tema Country'),
               ),
               const SizedBox(height: 8),
               ElevatedButton(
@@ -50,7 +50,7 @@ class Configuracion extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   primary: darkTheme.primaryColor,
                 ),
-                child: const Text('Tema Claro'),
+                child: const Text('Tema Oscuro'),
               ),
                ElevatedButton(
                 onPressed: () {
@@ -59,7 +59,7 @@ class Configuracion extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   primary: purpleTheme.primaryColor,
                 ),
-                child: const Text('Tema Claro'),
+                child: const Text('Tema Original'),
               ),
             ],
           ),
