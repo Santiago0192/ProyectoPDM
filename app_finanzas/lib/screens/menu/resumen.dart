@@ -138,23 +138,21 @@ class resumen extends StatelessWidget {
                   InkWell(
                     child: buildClickableContainer(
                         icon: Icons.monetization_on_rounded,
-                        texto: 'Gastos',
-                        //onTap: () {
-                        //},
-                  ),
-                      onTap: () {
-                          _mostrarDialogo(context);                      },
-                  ),
+                        texto: 'Agregar Nuevo Ingreso',
+                        ),
+                        onTap: () {
+                          _agregarIngreso(context);                      },
+                       ),
                   
                   InkWell(
                    child: buildClickableContainer(
                       icon: Icons.monetization_on_rounded,
-                      texto: 'Ingresos',
-                      
+                      texto: 'Agregar Nuevo Gasto',      
+                      ),
+                      onTap: () {
+                          _agregarGasto(context);                      
+                      },
                     ),
-                       onTap: () {
-                          _mostrarDialogo(context);                      },
-                  ),
                   
                 ],
               ),
@@ -166,38 +164,149 @@ class resumen extends StatelessWidget {
   }
 
 
-  void _mostrarDialogo(BuildContext context) {
+  void _agregarGasto(BuildContext context) {
     String nuevoDato = "";
+    String categoria = "";
+    //DateTime fechaSeleccionada;
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Agrega un nuevo gasto:'),
-          content: TextField(
-            onChanged: (value) {
-              nuevoDato = value;
-            },
+          title: const Text('Agrega un nuevo gasto:'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              TextField(
+                onChanged: (value) {
+                  nuevoDato = value;
+                },
+                decoration: InputDecoration(labelText: 'Cantidad'),
+              ),
+              TextField(
+                onChanged: (value) {
+                  categoria = value;
+                },
+                decoration: InputDecoration(labelText: 'Categoría'),
+              ),
+              /*TextButton(
+                onPressed: () async {
+                  fechaSeleccionada = await _mostrarDatePicker(context);
+                },
+                child: Text(
+                  fechaSeleccionada != null
+                      ? 'Fecha seleccionada: ${fechaSeleccionada.toLocal()}'
+                      : 'Seleccionar Fecha',
+                ),
+              ),*/
+            ],
           ),
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Cierra el cuadro de diálogo
+                Navigator.of(context).pop();
               },
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
             ),
             TextButton(
               onPressed: () {
-                // Aquí puedes hacer algo con el nuevo dato (por ejemplo, guardarlo en una lista o base de datos).
-                print('Nuevo gasto: $nuevoDato');
-                Navigator.of(context).pop(); // Cierra el cuadro de diálogo
+                print('Nuevo dato: $nuevoDato');
+                print('Categoría: $categoria');
+                //if (fechaSeleccionada != null) {
+                  //print('Fecha seleccionada: $fechaSeleccionada');
+                //}
+                Navigator.of(context).pop();
               },
-              child: Text('Agregar'),
+              child: const Text('Agregar Nuevo Gasto'),
             ),
           ],
         );
       },
     );
   }
+
+  /*Future<DateTime> _mostrarDatePicker(BuildContext context) async {
+    DateTime fechaActual = DateTime.now();
+    DateTime fechaSeleccionada = await showDatePicker(
+      context: context,
+      initialDate: fechaActual,
+      firstDate: fechaActual.subtract(Duration(days: 365)), // Hace un año desde la fecha actual
+      lastDate: fechaActual.add(Duration(days: 365)), // Hace un año desde la fecha actual
+    );
+    return fechaSeleccionada;
+  }*/
+
+
+  void _agregarIngreso(BuildContext context) {
+    String nuevoDato = "";
+    //String categoria = "";
+    //DateTime fechaSeleccionada;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Agrega un nuevo ingreso:'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              TextField(
+                onChanged: (value) {
+                  nuevoDato = value;
+                },
+                decoration: const InputDecoration(labelText: 'Cantidad'),
+              ),
+              /*TextField(
+                onChanged: (value) {
+                  categoria = value;
+                },
+                decoration: InputDecoration(labelText: 'Categoría'),
+              ),*/
+              /*TextButton(
+                onPressed: () async {
+                  fechaSeleccionada = await _mostrarDatePicker(context);
+                },
+                child: Text(
+                  fechaSeleccionada != null
+                      ? 'Fecha seleccionada: ${fechaSeleccionada.toLocal()}'
+                      : 'Seleccionar Fecha',
+                ),
+              ),*/
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                print('Nuevo dato: $nuevoDato');
+                //print('Categoría: $categoria');
+                //if (fechaSeleccionada != null) {
+                  //print('Fecha seleccionada: $fechaSeleccionada');
+                //}
+                Navigator.of(context).pop();
+              },
+              child: const Text('Agregar Nuevo Ingreso'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  /*Future<DateTime> _mostrarDatePicker(BuildContext context) async {
+    DateTime fechaActual = DateTime.now();
+    DateTime fechaSeleccionada = await showDatePicker(
+      context: context,
+      initialDate: fechaActual,
+      firstDate: fechaActual.subtract(Duration(days: 365)), // Hace un año desde la fecha actual
+      lastDate: fechaActual.add(Duration(days: 365)), // Hace un año desde la fecha actual
+    );
+    return fechaSeleccionada;
+  }*/
 
 }//final
