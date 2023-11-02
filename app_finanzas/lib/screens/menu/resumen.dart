@@ -80,7 +80,7 @@ class resumen extends StatelessWidget {
                                 ),
                               ),
                               const Text(
-                                'Este Mes',
+                                ' Este Mes',
                                 style: TextStyle(
                                   fontSize: 16.0,
                                   color: Colors.black,
@@ -134,27 +134,28 @@ class resumen extends StatelessWidget {
                     height: 1.0,
                     margin: const EdgeInsets.symmetric(horizontal: 16.0),
                   ),
-                  buildClickableContainer(
-                    icon: Icons.monetization_on_rounded,
-                    texto: 'Gastos',
-                    onTap: () {
-                      // Open the settings modal or perform an action here
-                    },
+
+                  InkWell(
+                    child: buildClickableContainer(
+                        icon: Icons.monetization_on_rounded,
+                        texto: 'Gastos',
+                        //onTap: () {
+                        //},
                   ),
-                  buildClickableContainer(
-                    icon: Icons.history,
-                    texto: 'Historial',
-                    onTap: () {
-                      // Open the settings modal or perform an action here
-                    },
+                      onTap: () {
+                          _mostrarDialogo(context);                      },
                   ),
-                  buildClickableContainer(
-                    icon: Icons.category,
-                    texto: 'Categorias',
-                    onTap: () {
-                      // Open the settings modal or perform an action here
-                    },
+                  
+                  InkWell(
+                   child: buildClickableContainer(
+                      icon: Icons.monetization_on_rounded,
+                      texto: 'Ingresos',
+                      
+                    ),
+                       onTap: () {
+                          _mostrarDialogo(context);                      },
                   ),
+                  
                 ],
               ),
             ),
@@ -163,4 +164,40 @@ class resumen extends StatelessWidget {
       ),
     );
   }
-}
+
+
+  void _mostrarDialogo(BuildContext context) {
+    String nuevoDato = "";
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Agrega un nuevo gasto:'),
+          content: TextField(
+            onChanged: (value) {
+              nuevoDato = value;
+            },
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Cierra el cuadro de diálogo
+              },
+              child: Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Aquí puedes hacer algo con el nuevo dato (por ejemplo, guardarlo en una lista o base de datos).
+                print('Nuevo gasto: $nuevoDato');
+                Navigator.of(context).pop(); // Cierra el cuadro de diálogo
+              },
+              child: Text('Agregar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+}//final

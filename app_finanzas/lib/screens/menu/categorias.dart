@@ -111,8 +111,8 @@ class _categoriasState extends State<categorias> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(_iconCategoria, size: 48.0, color: Colors.purple),
-              Text('$_nombreCategoria', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+              Icon(_iconCategoria, size: 50.0, color: Colors.purple),
+              Text('$_nombreCategoria', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,),),
               Text('\$ $_monto'),
 
             ],
