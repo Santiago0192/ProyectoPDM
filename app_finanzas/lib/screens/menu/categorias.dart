@@ -14,51 +14,109 @@ class _categoriasState extends State<categorias> {
       body: 
         ListView(
           children: [
-            InkWell(
-              child: _myCard("Pollo Frito", "20 min","Simple", "Expensive"),
-              onTap: () {
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
-              },
-            ),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    InkWell(
+                      child: _myCard(Icons.food_bank, "Comida", 500),
+                      onTap: () {
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
+                      },
+                    ),
 
-            InkWell(
-              child:  _myCard("Pechugas a la Plancha", "30 min","Dificil", "Afforable"),
-              onTap: () {
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta2(),));
-              },
-            ),
+                    InkWell(
+                      child: _myCard(Icons.car_rental, "Transporte", 500),
+                      onTap: () {
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
+                      },
+                    ),
 
-            InkWell(
-              child: _myCard("Taquitos", "20 min","Simple", "Expensive"),
-              onTap: () {
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta3(),));
-              },
-            ),
+                  ],
+                ),
 
-            InkWell(
-              child: _myCard("Hamburguesas", "30 min","Dificil", "Afforable"),
-              onTap: () {
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta4(),));
-              },
-            ),
 
-            InkWell(
-              child: _myCard("Pizza", "40 min","Simple", "Expensive"),
-              onTap: () {
-                //avigator.push(context, MaterialPageRoute(builder: (context) => const Receta5(),));
-              },
-            ),
+                //*****
+                Row(
+                  children: [
+                    InkWell(
+                      child: _myCard(Icons.party_mode, "Fiesta", 500),
+                      onTap: () {
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
+                      },
+                    ),
+
+                    InkWell(
+                      child: _myCard(Icons.movie, "Entretenimiento", 500),
+                      onTap: () {
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
+                      },
+                    ),
+
+                  ],
+                ),
+
+                Row(
+                  children: [
+                    InkWell(
+                      child: _myCard(Icons.school, "Educación", 500),
+                      onTap: () {
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
+                      },
+                    ),
+
+                    InkWell(
+                      child: _myCard(Icons.home, "Hogar", 500),
+                      onTap: () {
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
+                      },
+                    ),
+
+                  ],
+                ),
+
+                Row(
+                  children: [
+                    InkWell(
+                      child: _myCard(Icons.school, "Educación", 500),
+                      onTap: () {
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
+                      },
+                    ),
+
+                    InkWell(
+                      child: _myCard(Icons.home, "Hogar", 500),
+                      onTap: () {
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
+                      },
+                    ),
+
+                  ],
+                )
+              ],
+            )
+            
           ],
         )
     );
   }
 
-  Widget _myCard(String _nomReceta,_duracion, _dificultad, _costo ){
+  Widget _myCard(IconData _iconCategoria, String _nombreCategoria, int _monto,){
+
   return Container(
-        width: 150,  // Ancho de la tarjeta
-        height: 150, // Alto de la tarjeta
+        width: 200,  // Ancho de la tarjeta
+        height: 250, // Alto de la tarjeta
         child: Card(
-          child: Text('Contenido de la tarjeta'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(_iconCategoria, size: 48.0, color: Colors.purple),
+              Text('$_nombreCategoria', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+              Text('\$ $_monto'),
+
+            ],
+          ),
         ),
    );
 
