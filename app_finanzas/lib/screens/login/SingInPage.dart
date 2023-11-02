@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:app_finanzas/screens/menu/menu.dart';
 import 'package:app_finanzas/screens/login/SingUpPage.dart';
+import 'package:app_finanzas/funciones/CustomTextField.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
   @override
+  _SignInPageState createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _contraController = TextEditingController();
+  
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -29,47 +37,21 @@ class SignInPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 16.0),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: 'Correo',
-                          prefixIcon: Icon(Icons.email,
-                              color: Color.fromARGB(255, 173, 116, 183)),
-                          labelStyle: TextStyle(
-                              color: Color.fromARGB(255, 173, 116, 183)),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(
-                              color: Color.fromARGB(255, 173, 116, 183),
-                              width: 2.0,
-                            ),
-                          ),
-                        ),
+                      CustomTextField(
+                        labelText: 'Correo',
+                        prefixIcon: Icons.email,
+                        keyboardType: TextInputType.text, //emailAddress,
+                        controller: _emailController,
                       ),
-                      SizedBox(height: 16.0),
-                      TextFormField(
+                      const SizedBox(height: 16.0),
+                      CustomTextField(
+                        labelText: 'Contraseña',
+                        prefixIcon: Icons.lock,
+                        keyboardType: TextInputType.text,
                         obscureText: true,
-                        decoration: InputDecoration(
-                          labelText: 'Contraseña',
-                          prefixIcon: Icon(Icons.lock,
-                              color: Color.fromARGB(255, 173, 116, 183)),
-                          labelStyle: TextStyle(
-                              color: Color.fromARGB(255, 173, 116, 183)),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0),
-                            borderSide: BorderSide(
-                              color: Color.fromARGB(255, 173, 116, 183),
-                              width: 2.0,
-                            ),
-                          ),
-                        ),
+                        controller: _contraController,
                       ),
-                      SizedBox(height: 16.0),
+                      const SizedBox(height: 16.0),
                       ElevatedButton(
                         onPressed: () {
                           // Agregar aquí la lógica para iniciar sesión
@@ -86,8 +68,6 @@ class SignInPage extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           shape: CircleBorder(),
                           padding: EdgeInsets.all(16.0),
-                          primary: Color.fromARGB(255, 169, 44,
-                              191), // Cambia el color según tu preferencia
                         ),
                       ),
                     ],
@@ -106,7 +86,6 @@ class SignInPage extends StatelessWidget {
                 child: Text(
                   '¿No tiene cuenta? SIGN UP',
                   style: TextStyle(
-                    color: Colors.white,
                     decoration: TextDecoration.underline,
                   ),
                 ),

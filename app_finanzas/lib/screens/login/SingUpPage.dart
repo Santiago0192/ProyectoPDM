@@ -1,6 +1,6 @@
 import 'package:app_finanzas/screens/login/SingInPage.dart';
-import 'package:app_finanzas/screens/menu/menu.dart';
 import 'package:app_finanzas/funciones/CustomTextField.dart';
+import 'package:app_finanzas/screens/menu/menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
 
@@ -208,8 +208,6 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                             Text(
                               'Acepto los Términos y Condiciones',
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 173, 116, 183)),
                             ),
                             SizedBox(width: 16.0),
                             _isChecked
@@ -234,11 +232,10 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
                             );
                           },
-                          child: Icon(Icons.arrow_forward, color: Colors.white),
+                          child: Icon(Icons.arrow_forward),
                           style: ElevatedButton.styleFrom(
                             shape: CircleBorder(),
                             padding: EdgeInsets.all(16.0),
-                            primary: Color.fromARGB(255, 169, 44, 191),
                           ),
                         ),
                       ],
@@ -259,7 +256,6 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Text(
                     '¿Ya tienes una cuenta? SIGN IN',
                     style: TextStyle(
-                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

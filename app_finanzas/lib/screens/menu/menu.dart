@@ -15,7 +15,7 @@ class _MyPageState extends State<MyPage> {
    int _selectedPage = 0;
 
   final List<Widget> _pages = [
-    resumen(),
+    Resumen(),
     historial(),
     categorias(),
     Configuracion(),
@@ -25,7 +25,9 @@ class _MyPageState extends State<MyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      /*appBar: AppBar(
+        title: const Text('name'),
+      ),*/
       body: _pages[_selectedPage],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
