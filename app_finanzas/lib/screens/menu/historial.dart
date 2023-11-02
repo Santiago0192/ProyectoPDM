@@ -4,8 +4,8 @@ import 'package:app_finanzas/funciones/ClickContainer.dart';
 import 'dart:convert';
 import 'package:app_finanzas/data/constrants.dart';
 
-
-
+import 'package:provider/provider.dart';
+import 'package:app_finanzas/models/theme.dart';
 
 class historial extends StatefulWidget {
   const historial({super.key});
@@ -38,6 +38,7 @@ class HistorialList extends StatelessWidget{
   final List historial;
   @override
   Widget build(BuildContext context){
+    final themeModel = Provider.of<ThemeModel>(context);
     return Stack(
       children: [
 Positioned(
@@ -62,7 +63,7 @@ Positioned(
                 child: Container(
                   height: 10,
                   width: 200,
-                  color: Color.fromARGB(255, 226, 33, 243),
+                  color: themeModel.currentTheme.iconTheme.color,
                 ),
               ),
 
@@ -117,14 +118,14 @@ Positioned(
                 leading: Text(
                   "       ${historial[index]['tipo']}",
                   style: TextStyle(
-                    color: (historial[index]['tipo']) == "Gasto" ? Color.fromARGB(255, 226, 33, 243) : Color.fromARGB(255, 84, 183, 201),
+                    color: (historial[index]['tipo']) == "Gasto" ? themeModel.currentTheme.iconTheme.color : Color.fromARGB(255, 84, 183, 201),
                   )),
                 title: Text('   ${historial[index]['tienda']}'),
                 subtitle: Text('   ${historial[index]['fecha']} \n   ${historial[index]['argumento']}'),
                 trailing: Text(
                   "\$${historial[index]['monto']}.00          ",
                   style: TextStyle(
-                    color: (historial[index]['tipo']) == "Gasto" ? Color.fromARGB(255, 226, 33, 243) : Color.fromARGB(255, 84, 183, 201),
+                    color: (historial[index]['tipo']) == "Gasto" ? themeModel.currentTheme.iconTheme.color : Color.fromARGB(255, 84, 183, 201),
                   )),
                 
                );
