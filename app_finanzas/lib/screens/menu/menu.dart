@@ -4,6 +4,9 @@ import 'package:app_finanzas/screens/menu/resumen.dart';
 import 'package:app_finanzas/screens/menu/usuario.dart';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+import 'package:app_finanzas/models/theme.dart';
+
 class MyPage extends StatefulWidget {
   @override
   State<MyPage> createState() => _MyPageState();
@@ -24,6 +27,7 @@ class _MyPageState extends State<MyPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeModel = Provider.of<ThemeModel>(context);
     return Scaffold(
       /*appBar: AppBar(
         title: const Text('name'),
@@ -54,7 +58,7 @@ class _MyPageState extends State<MyPage> {
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Perfil"),
 
         ],
-        selectedItemColor: const Color.fromARGB(255, 219, 33, 243),
+        selectedItemColor: themeModel.currentTheme.iconTheme.color,
         unselectedItemColor: Colors.grey,
 
       ),
