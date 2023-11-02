@@ -1,6 +1,6 @@
 import 'package:app_finanzas/screens/menu/categorias.dart';
 import 'package:app_finanzas/screens/menu/historial.dart';
-import 'package:app_finanzas/screens/menu/resumen2.dart';
+import 'package:app_finanzas/screens/menu/resumen.dart';
 import 'package:app_finanzas/screens/menu/usuario.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,7 @@ class _MyPageState extends State<MyPage> {
    int _selectedPage = 0;
 
   final List<Widget> _pages = [
-    resumen(),
+    Resumen(),
     historial(),
     categorias(),
     Configuracion(),

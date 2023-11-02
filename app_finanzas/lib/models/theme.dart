@@ -33,22 +33,32 @@ ThemeData darkTheme = ThemeData(
   appBarTheme: const AppBarTheme(
     color: Colors.blue,
   ),
+  iconTheme: const IconThemeData(
+      color: Colors.lightBlue), // Cambia el color de los íconos
+  buttonTheme: const ButtonThemeData(
+    buttonColor: Colors.lightBlue,
+    textTheme: ButtonTextTheme.primary,
+  ),
   visualDensity: VisualDensity.adaptivePlatformDensity,
 );
 
 ThemeData purpleTheme = ThemeData(
   primaryColor: Colors.purple[400],
-  scaffoldBackgroundColor: const Color.fromARGB(255, 210, 198, 224),
+  scaffoldBackgroundColor: Color.fromARGB(255, 199, 165, 239),
   textTheme: const TextTheme(
     bodyText2: TextStyle(color: Colors.black),
   ),
   appBarTheme: const AppBarTheme(
-    color:  Colors.purple,
+    color: Colors.purple,
+  ),
+  iconTheme: const IconThemeData(
+      color: Colors.purple), // Cambia el color de los íconos
+  buttonTheme: const ButtonThemeData(
+    buttonColor: Colors.purple,
+    textTheme: ButtonTextTheme.primary,
   ),
   visualDensity: VisualDensity.adaptivePlatformDensity,
 );
-
-
 
 class ThemeModel with ChangeNotifier {
   ThemeData _currentTheme = purpleTheme;
