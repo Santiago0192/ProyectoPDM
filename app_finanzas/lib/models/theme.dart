@@ -40,7 +40,7 @@ ThemeData darkTheme = ThemeData(
   primaryColor: const Color.fromARGB(255, 2, 30, 61),
   scaffoldBackgroundColor: Color.fromARGB(255, 14, 2, 63),
   textTheme: const TextTheme(
-    bodyText2: TextStyle(color: Color.fromARGB(255, 250, 245, 245)),
+    bodyText2: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
   ),
   appBarTheme: const AppBarTheme(
     color: Color.fromARGB(255, 14, 2, 63),
