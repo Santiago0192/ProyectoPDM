@@ -2,6 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:app_finanzas/screens/menu/menu.dart';
 import 'package:app_finanzas/screens/login/SingUpPage.dart';
 import 'package:app_finanzas/funciones/CustomTextField.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
+Future<UserCredential?> signIn(String email, String password) async {
+  try {
+    UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return userCredential;
+  } on FirebaseAuthException catch (e) {
+    print(e.message);
+    return null;
+  }
+}
 
 class SignInPage extends StatefulWidget {
   @override
@@ -11,7 +27,7 @@ class SignInPage extends StatefulWidget {
 class _SignInPageState extends State<SignInPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _contraController = TextEditingController();
-  
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
@@ -53,22 +69,22 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                       const SizedBox(height: 16.0),
                       ElevatedButton(
-                        onPressed: () {
-                          // Agregar aquí la lógica para iniciar sesión
-                          // ...
-                          // Después de que el usuario haya iniciado sesión, navegamos a la página de menú
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    MyPage()), // Cambia a MyPage si es la pantalla correcta
-                          );
+                        onPressed: () async {
+                          print(_emailController.text);
+                          print(_contraController.text);
+                          UserCredential? user = await signIn(
+                              _emailController.text, _contraController.text);
+                          if (user != null) {
+                            print("Inicio de sesión exitoso");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MyPage()),
+                            );
+                          } else {
+                            print("Error al iniciar sesión");
+                          }
                         },
-                        child: Icon(Icons.arrow_forward),
-                        style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(),
-                          padding: EdgeInsets.all(16.0),
-                        ),
+                        child: Text('Iniciar sesión'),
                       ),
                     ],
                   ),

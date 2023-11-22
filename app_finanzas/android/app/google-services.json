@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1011212456285",
+    "firebase_url": "https://app-finanzas-650fa-default-rtdb.firebaseio.com",
+    "project_id": "app-finanzas-650fa",
+    "storage_bucket": "app-finanzas-650fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011212456285:android:a6f1647b38e36de34958b4",
+        "android_client_info": {
+          "package_name": "com.example.app_finanzas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCba8d5zuV1pioIFHHO0Pd5-i34roZO6xE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
