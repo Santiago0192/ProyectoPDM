@@ -4,6 +4,8 @@ import 'package:app_finanzas/screens/login/SingUpPage.dart';
 import 'package:app_finanzas/funciones/CustomTextField.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../global/common/toast.dart';
+
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 Future<UserCredential?> signIn(String email, String password) async {
@@ -25,6 +27,8 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  bool _isSigning = false;
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _contraController = TextEditingController();
 
@@ -69,20 +73,8 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                       const SizedBox(height: 16.0),
                       ElevatedButton(
-                        onPressed: () async {
-                          print(_emailController.text);
-                          print(_contraController.text);
-                          UserCredential? user = await signIn(
-                              _emailController.text, _contraController.text);
-                          if (user != null) {
-                            print("Inicio de sesión exitoso");
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => MyPage()),
-                            );
-                          } else {
-                            print("Error al iniciar sesión");
-                          }
+                        onPressed: () {
+                          _signIn();
                         },
                         child: Text('Iniciar sesión'),
                       ),
@@ -111,5 +103,31 @@ class _SignInPageState extends State<SignInPage> {
         ),
       ),
     );
+  }
+
+  void _signIn() async {
+    setState(() {
+      _isSigning = true;
+    });
+
+    String email = _emailController.text;
+    String contrasena = _contraController.text;
+
+    UserCredential user = await _auth.signInWithEmailAndPassword(
+        email: email, password: contrasena);
+
+    setState(() {
+      _isSigning = false;
+    });
+
+    if (user != null) {
+      showToast(message: "User is successfully signed in");
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MyPage()),
+      );
+    } else {
+      showToast(message: "some error occured");
+    }
   }
 }

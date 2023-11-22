@@ -1,8 +1,12 @@
+import 'package:app_finanzas/global/common/toast.dart';
 import 'package:app_finanzas/screens/login/SingInPage.dart';
 import 'package:app_finanzas/funciones/CustomTextField.dart';
 import 'package:app_finanzas/screens/menu/menu.dart';
+import 'package:app_finanzas/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 //Permisos para JSON
 import 'dart:convert';
@@ -17,51 +21,15 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   bool _isChecked = false;
+  bool isSigningUp = false;
+  final FirebaseAuthService _auth = FirebaseAuthService();
 
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _name2Controller = TextEditingController();
-  final TextEditingController _birthController = TextEditingController();
-  final TextEditingController _ocupacionController = TextEditingController();
+  final TextEditingController _nombreController = TextEditingController();
+  final TextEditingController _apellidoController = TextEditingController();
   final TextEditingController _ingresosController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _contraController = TextEditingController();
   final TextEditingController _contra2Controller = TextEditingController();
-
-  // Función para guardar los datos en JSON
-  Future<void> _saveFormData() async {
-    //if (_formKey.currentState!.validate()) {
-    //Datos del usuario
-    final userData = {
-      'nombre': _nameController.text,
-      'apellido': _name2Controller.text,
-      'fecha_nacimiento': _birthController.text,
-      'ocupacion': _ocupacionController.text,
-      'ingresos': _ingresosController.text,
-      'correo': _emailController.text,
-      'contrasena': _contraController.text,
-      'contrasena2': _contra2Controller.text,
-    };
-
-    await saveDataToJSON(userData);
-
-    // Mostrar una confirmación o realizar otras acciones después de guardar los datos
-    //}
-  }
-
-  //Escritura de JSON
-  Future<void> saveDataToJSON(Map<String, dynamic> data) async {
-    // Obtener el directorio de documentos en el dispositivo
-    final Directory directory = await getApplicationDocumentsDirectory();
-    //final file = File('${directory.path}/data.json');
-
-    // Convertir los datos a una cadena JSON
-    final jsonData = json.encode(data);
-
-    // Escribir los datos en el archivo
-    //await file.writeAsString(jsonData);
-
-    print('Datos guardados en el archivo JSON');
-  }
 
   //Dialogo de permisos
   void _showPermissionDialog() {
@@ -73,17 +41,14 @@ class _SignUpPageState extends State<SignUpPage> {
             "Autorizar permiso para escribir en la memoria del dispositivo."),
         actions: <Widget>[
           BasicDialogAction(
-            onPressed: () async{
+            onPressed: () async {
               Navigator.of(context).pop();
               //Agregar permiso necesario
-              PermissionStatus  storageStatus = await Permission.storage.request();
-              if (storageStatus == PermissionStatus.granted){
-
-              }
-              if (storageStatus == PermissionStatus.denied){
-                
-              }
-              if (storageStatus == PermissionStatus.permanentlyDenied){
+              PermissionStatus storageStatus =
+                  await Permission.storage.request();
+              if (storageStatus == PermissionStatus.granted) {}
+              if (storageStatus == PermissionStatus.denied) {}
+              if (storageStatus == PermissionStatus.permanentlyDenied) {
                 openAppSettings();
               }
             },
@@ -101,6 +66,14 @@ class _SignUpPageState extends State<SignUpPage> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _nombreController.dispose();
+    _emailController.dispose();
+    _contraController.dispose();
+    super.dispose();
   }
 
   @override
@@ -133,35 +106,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           labelText: 'Nombre',
                           prefixIcon: Icons.person,
                           keyboardType: TextInputType.text,
-                          controller: _nameController,
-                        ),
-                        const SizedBox(height: 16.0),
-                        CustomTextField(
-                          labelText: 'Apellido',
-                          prefixIcon: Icons.person,
-                          keyboardType: TextInputType.text,
-                          controller: _name2Controller,
-                        ),
-                        const SizedBox(height: 16.0),
-                        CustomTextField(
-                          labelText: 'Fecha de Nacimiento',
-                          prefixIcon: Icons.calendar_today,
-                          keyboardType: TextInputType.text,
-                          controller: _birthController,
-                        ),
-                        const SizedBox(height: 16.0),
-                        CustomTextField(
-                          labelText: 'Ocupación (Opcional)',
-                          prefixIcon: Icons.work,
-                          keyboardType: TextInputType.text,
-                          controller: _ocupacionController,
-                        ),
-                        const SizedBox(height: 16.0),
-                        CustomTextField(
-                          labelText: 'Ingresos (Opcional)',
-                          prefixIcon: Icons.attach_money,
-                          keyboardType: TextInputType.number,
-                          controller: _ingresosController,
+                          controller: _nombreController,
                         ),
                         const SizedBox(height: 16.0),
                         CustomTextField(
@@ -179,19 +124,6 @@ class _SignUpPageState extends State<SignUpPage> {
                           controller: _contraController,
                         ),
                         const SizedBox(height: 16.0),
-                        CustomTextField(
-                          labelText: 'Confirmar Contraseña',
-                          prefixIcon: Icons.lock,
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
-                          controller: _contra2Controller,
-                        ),
-                        const SizedBox(height: 16.0),
-                        ElevatedButton(
-                          onPressed:
-                              _saveFormData, // Llama a la función para guardar datos
-                          child: const Text('Guardar'),
-                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -219,25 +151,29 @@ class _SignUpPageState extends State<SignUpPage> {
                                 : Container(),
                           ],
                         ),
-                        SizedBox(height: 16.0),
+                        const SizedBox(height: 16.0),
                         ElevatedButton(
                           onPressed: () {
-                            // Agregar aquí la lógica para iniciar sesión
-                            // ...
-                            // Después de que el usuario haya iniciado sesión, navegamos a la página de menú
+                            _signUp(); // Llama a la función para guardar datos
+
+                            // Muestra un SnackBar
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Usuario guardado'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                            // Navega a la página de inicio de sesión
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MyPage(),
+                                builder: (context) => SignInPage(),
                               ),
                             );
                           },
-                          child: Icon(Icons.arrow_forward),
-                          style: ElevatedButton.styleFrom(
-                            shape: CircleBorder(),
-                            padding: EdgeInsets.all(16.0),
-                          ),
+                          child: const Text('Guardar'),
                         ),
+                        SizedBox(height: 16.0),
                       ],
                     ),
                   ),
@@ -256,7 +192,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   child: Text(
                     '¿Ya tienes una cuenta? SIGN IN',
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
                     ),
                   ),
                 ),
@@ -266,5 +202,27 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       ),
     );
+  }
+
+  void _signUp() async {
+    setState(() {
+      isSigningUp = true;
+    });
+
+    String nombre = _nombreController.text;
+    String email = _emailController.text;
+    String contrasena = _contraController.text;
+
+    User? user = await _auth.signUpWithEmailAndPassword(email, contrasena);
+
+    setState(() {
+      isSigningUp = false;
+    });
+    if (user != null) {
+      showToast(message: "User is successfully created");
+      Navigator.pushNamed(context, "/home");
+    } else {
+      showToast(message: "Some error happend");
+    }
   }
 }
