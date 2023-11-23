@@ -72,7 +72,7 @@ class _ResumenState extends State<Resumen> {
                   ),
                 ),
                 Text(
-                  '${totalGastos - totalIngresos}',
+                  '${totalIngresos - totalGastos}',
                   style: TextStyle(
                   fontSize: 36.0,
                   fontWeight: FontWeight.bold,
