@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:app_finanzas/funciones/ClickContainer.dart';
 
@@ -122,10 +124,17 @@ class Resumen extends StatelessWidget {
     );
   }
 
-   void _agregarGasto(BuildContext context) {
-        TextEditingController _nuevoGasto = TextEditingController();
-        TextEditingController _categoria = TextEditingController();
-
+  void _agregarGasto(BuildContext context) {
+    TextEditingController _nuevoGasto = TextEditingController();
+    TextEditingController _categoria = TextEditingController();
+    
+    Future AddUserDetails(
+      String name) async{
+        await FirebaseFirestore.instance.collection('users').add({
+          'name': name
+        });
+      }
+    
 
     //String categoria = "";
     //DateTime fechaSeleccionada;
@@ -172,6 +181,7 @@ class Resumen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
+                AddUserDetails(_categoria.text.trim());
                 Navigator.of(context).pop();
               },
               child: const Text('Agregar Nuevo Gasto'),
