@@ -16,9 +16,9 @@ return GestureDetector(
         borderRadius: BorderRadius.circular(10.0),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
+            color: Colors.black.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 3,
           ),
         ],
       ),

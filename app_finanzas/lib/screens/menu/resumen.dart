@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:app_finanzas/funciones/ClickContainer.dart';
+import 'package:intl/intl.dart';
 
 class Resumen extends StatefulWidget {
   @override
@@ -73,7 +74,7 @@ class _ResumenState extends State<Resumen> {
           Container(
             width: 350.0,
             height: 140.0,
-            padding: EdgeInsets.symmetric(vertical: 20.0),
+            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
@@ -86,23 +87,29 @@ class _ResumenState extends State<Resumen> {
               ],
             ),
             child: Column(
-              children: [
-                Text(
-                  'Balance General',
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Balance '+DateFormat('MMMM').format(DateTime.now()),
+                    style: TextStyle(
+                      fontSize: 34.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ), // Espaciado entre los textos
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        '\$${totalIngresos - totalGastos}',
+                        style: TextStyle(
+                          fontSize: 50.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                Text(
-                  '${totalIngresos - totalGastos}',
-                  style: TextStyle(
-                  fontSize: 56.0,
-                  fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
+                ],
+              ),
           ),
           
           // Gastos e Ingresos
