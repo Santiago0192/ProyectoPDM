@@ -14,14 +14,21 @@ class Resumen extends StatefulWidget {
 class _ResumenState extends State<Resumen> {
   final user = FirebaseAuth.instance.currentUser!;
 
-  List<String> categorias = ["Comida", "Transporte", "Entretenimiento","Educacion","Hogar","Otros"];
+  List<String> categorias = [
+    "Comida",
+    "Transporte",
+    "Entretenimiento",
+    "Educacion",
+    "Hogar",
+    "Otros"
+  ];
 
   int totalGastos = 0;
   int totalIngresos = 0;
   String? _selectedCategoria;
 
   @override
-  void initState(){
+  void initState() {
     getGastos();
     getingresos();
     super.initState();
@@ -29,28 +36,36 @@ class _ResumenState extends State<Resumen> {
 
   Future getGastos() async {
     totalGastos = 0;
-    await FirebaseFirestore.instance.collection('gasto').where('userId', isEqualTo: user.uid).get().then(
-      (value) => value.docs.forEach(
-        (element) {
-          //print(element.reference);
-          //print(user.uid);
-          //docIDs.add(element.reference.id);
-          totalGastos += element.data()!['cantidad'] as int;
-        },
-      ),
-    );
+    await FirebaseFirestore.instance
+        .collection('gasto')
+        .where('userId', isEqualTo: user.uid)
+        .get()
+        .then(
+          (value) => value.docs.forEach(
+            (element) {
+              //print(element.reference);
+              //print(user.uid);
+              //docIDs.add(element.reference.id);
+              totalGastos += element.data()!['cantidad'] as int;
+            },
+          ),
+        );
     setState(() {});
   }
 
   Future getingresos() async {
     totalIngresos = 0;
-    await FirebaseFirestore.instance.collection('ingreso').where('userId', isEqualTo: user.uid).get().then(
-      (value) => value.docs.forEach(
-        (element) {
-          totalIngresos += element.data()!['cantidad'] as int;
-        },
-      ),
-    );
+    await FirebaseFirestore.instance
+        .collection('ingreso')
+        .where('userId', isEqualTo: user.uid)
+        .get()
+        .then(
+          (value) => value.docs.forEach(
+            (element) {
+              totalIngresos += element.data()!['cantidad'] as int;
+            },
+          ),
+        );
     setState(() {});
   }
 
@@ -74,14 +89,14 @@ class _ResumenState extends State<Resumen> {
                 Text(
                   '${totalIngresos - totalGastos}',
                   style: TextStyle(
-                  fontSize: 36.0,
-                  fontWeight: FontWeight.bold,
+                    fontSize: 36.0,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
           ),
-          
+
           // Gastos e Ingresos
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -180,13 +195,13 @@ class _ResumenState extends State<Resumen> {
           // InkWell para Gastos e Ingresos
           InkWell(
             child: buildClickableContainer(
-                icon: Icons.monetization_on_rounded,
-                texto: 'Agregar Nuevo Ingreso',
-                ),
-                onTap: () {
-                  _agregarIngreso(context);
-                  },
-                ),
+              icon: Icons.monetization_on_rounded,
+              texto: 'Agregar Nuevo Ingreso',
+            ),
+            onTap: () {
+              _agregarIngreso(context);
+            },
+          ),
 
           InkWell(
             child: buildClickableContainer(
@@ -208,8 +223,10 @@ class _ResumenState extends State<Resumen> {
     required String documentId,
   }) {
     return FutureBuilder<DocumentSnapshot>(
-      future: FirebaseFirestore.instance.collection('gasto').doc(documentId).get(),
-      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+      future:
+          FirebaseFirestore.instance.collection('gasto').doc(documentId).get(),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator(); // Show a loading indicator while data is loading
         } else if (snapshot.hasError) {
@@ -217,9 +234,10 @@ class _ResumenState extends State<Resumen> {
         } else if (!snapshot.data!.exists) {
           return Text("Document does not exist");
         } else {
-          Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+          Map<String, dynamic> data =
+              snapshot.data!.data() as Map<String, dynamic>;
           String cantidad = '${data['cantidad']} ${data['categoria']}';
-          
+
           return Container(
             width: 150.0,
             height: 150.0,
@@ -272,13 +290,11 @@ class _ResumenState extends State<Resumen> {
   void _agregarGasto(BuildContext context) {
     TextEditingController _nuevoGasto = TextEditingController();
     TextEditingController _categoria = TextEditingController();
-    
-    Future AddGastoDetails(int cant, String categoria) async{
-      await FirebaseFirestore.instance.collection('gasto').add({
-        'cantidad': cant,
-        'categoria': categoria,
-        'userId': user.uid
-      });
+
+    Future AddGastoDetails(int cant, String categoria) async {
+      await FirebaseFirestore.instance
+          .collection('gasto')
+          .add({'cantidad': cant, 'categoria': categoria, 'userId': user.uid});
     }
 
     showDialog(
@@ -289,39 +305,37 @@ class _ResumenState extends State<Resumen> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              
               TextField(
-                  controller: _nuevoGasto,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.monetization_on),
-                    labelText: "Cantidad",
-                    border: OutlineInputBorder(),
-                  ),
+                controller: _nuevoGasto,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.monetization_on),
+                  labelText: "Cantidad",
+                  border: OutlineInputBorder(),
+                ),
               ),
               SizedBox(
                 height: 20,
               ),
-DropdownButtonFormField<String>(
-  value: _selectedCategoria,
-  onChanged: (String? newValue) {
-    setState(() {
-      _selectedCategoria = newValue;
-    });
-  },
-  decoration: const InputDecoration(
-    icon: Icon(Icons.category),
-    labelText: "Categoria",
-    border: OutlineInputBorder(),
-  ),
-  items: categorias.map((String categoria) {
-    return DropdownMenuItem<String>(
-      value: categoria,
-      child: Text(categoria),
-    );
-  }).toList(),
-),
-
+              DropdownButtonFormField<String>(
+                value: _selectedCategoria,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedCategoria = newValue;
+                  });
+                },
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.category),
+                  labelText: "Categoria",
+                  border: OutlineInputBorder(),
+                ),
+                items: categorias.map((String categoria) {
+                  return DropdownMenuItem<String>(
+                    value: categoria,
+                    child: Text(categoria),
+                  );
+                }).toList(),
+              ),
             ],
           ),
           actions: <Widget>[
@@ -333,12 +347,12 @@ DropdownButtonFormField<String>(
             ),
             TextButton(
               onPressed: () {
-                AddGastoDetails(int.parse(_nuevoGasto.text.trim()),_selectedCategoria!);
+                AddGastoDetails(
+                    int.parse(_nuevoGasto.text.trim()), _selectedCategoria!);
                 Navigator.of(context).pop();
-                getGastos(); 
+                getGastos();
               },
               child: const Text('Agregar Nuevo Gasto'),
-              
             ),
           ],
         );
@@ -347,13 +361,12 @@ DropdownButtonFormField<String>(
   }
 
   void _agregarIngreso(BuildContext context) {
-  TextEditingController _nuevoIngreso = TextEditingController();
+    TextEditingController _nuevoIngreso = TextEditingController();
 
-    Future AddIngresoDetails(int cant) async{
-      await FirebaseFirestore.instance.collection('ingreso').add({
-        'cantidad': cant,
-        'userId': user.uid
-      });
+    Future AddIngresoDetails(int cant) async {
+      await FirebaseFirestore.instance
+          .collection('ingreso')
+          .add({'cantidad': cant, 'userId': user.uid});
     }
 
     showDialog(
@@ -365,13 +378,13 @@ DropdownButtonFormField<String>(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
-                  controller: _nuevoIngreso, // Usar el controlador
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.monetization_on),
-                    labelText: "Cantidad",
-                    border: OutlineInputBorder(),
-                  ),
+                controller: _nuevoIngreso, // Usar el controlador
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.monetization_on),
+                  labelText: "Cantidad",
+                  border: OutlineInputBorder(),
+                ),
               ),
             ],
           ),
@@ -386,7 +399,7 @@ DropdownButtonFormField<String>(
               onPressed: () {
                 AddIngresoDetails(int.parse(_nuevoIngreso.text.trim()));
                 Navigator.of(context).pop();
-                getingresos(); 
+                getingresos();
               },
               child: const Text('Agregar Nuevo Ingreso'),
             ),
@@ -395,5 +408,4 @@ DropdownButtonFormField<String>(
       },
     );
   }
-
 }

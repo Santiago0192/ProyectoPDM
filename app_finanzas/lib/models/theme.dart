@@ -16,6 +16,11 @@ ThemeData countryTheme = ThemeData(
     textTheme: ButtonTextTheme.primary,
   ),
   visualDensity: VisualDensity.adaptivePlatformDensity,
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      primary: Colors.brown,
+    ),
+  ),
 );
 
 ThemeData lightTheme = ThemeData(
@@ -34,13 +39,18 @@ ThemeData lightTheme = ThemeData(
     textTheme: ButtonTextTheme.primary,
   ),
   visualDensity: VisualDensity.adaptivePlatformDensity,
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      primary: Color.fromARGB(255, 0, 102, 65),
+    ),
+  ),
 );
 
 ThemeData darkTheme = ThemeData(
   primaryColor: const Color.fromARGB(255, 2, 30, 61),
   scaffoldBackgroundColor: Color.fromARGB(255, 14, 2, 63),
   textTheme: const TextTheme(
-    bodyText2: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+    bodyText2: TextStyle(color: Color.fromARGB(255, 123, 173, 197)),
   ),
   appBarTheme: const AppBarTheme(
     color: Color.fromARGB(255, 14, 2, 63),
@@ -52,6 +62,11 @@ ThemeData darkTheme = ThemeData(
     textTheme: ButtonTextTheme.primary,
   ),
   visualDensity: VisualDensity.adaptivePlatformDensity,
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      primary: const Color.fromARGB(255, 9, 77, 108),
+    ),
+  ),
 );
 
 ThemeData purpleTheme = ThemeData(
@@ -70,6 +85,11 @@ ThemeData purpleTheme = ThemeData(
     textTheme: ButtonTextTheme.primary,
   ),
   visualDensity: VisualDensity.adaptivePlatformDensity,
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      primary: Colors.purple,
+    ),
+  ),
 );
 
 class ThemeModel with ChangeNotifier {
