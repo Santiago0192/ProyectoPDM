@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class categorias extends StatefulWidget {
   const categorias({super.key});
@@ -9,6 +11,8 @@ class categorias extends StatefulWidget {
 
 class _categoriasState extends State<categorias> {
   @override
+  final user = FirebaseAuth.instance.currentUser!;
+
   Widget build(BuildContext context) {
     return  Scaffold(
       body: 
@@ -19,14 +23,14 @@ class _categoriasState extends State<categorias> {
                 Row(
                   children: [
                     InkWell(
-                      child: _myCard(Icons.food_bank, "Comida", 500),
+                      child: _myCard(Icons.food_bank, "Comida"),
                       onTap: () {
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
                       },
                     ),
 
                     InkWell(
-                      child: _myCard(Icons.car_rental, "Transporte", 500),
+                      child: _myCard(Icons.car_rental, "Transporte"),
                       onTap: () {
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
                       },
@@ -40,14 +44,14 @@ class _categoriasState extends State<categorias> {
                 Row(
                   children: [
                     InkWell(
-                      child: _myCard(Icons.party_mode, "Fiesta", 500),
+                      child: _myCard(Icons.party_mode, "Otros"),
                       onTap: () {
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
                       },
                     ),
 
                     InkWell(
-                      child: _myCard(Icons.movie, "Entretenimiento", 500),
+                      child: _myCard(Icons.movie, "Entretenimiento"),
                       onTap: () {
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
                       },
@@ -59,14 +63,14 @@ class _categoriasState extends State<categorias> {
                 Row(
                   children: [
                     InkWell(
-                      child: _myCard(Icons.school, "Educación", 500),
+                      child: _myCard(Icons.school, "Educación"),
                       onTap: () {
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
                       },
                     ),
 
                     InkWell(
-                      child: _myCard(Icons.home, "Hogar", 500),
+                      child: _myCard(Icons.home, "Hogar"),
                       onTap: () {
                         //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
                       },
@@ -74,25 +78,6 @@ class _categoriasState extends State<categorias> {
 
                   ],
                 ),
-
-                Row(
-                  children: [
-                    InkWell(
-                      child: _myCard(Icons.school, "Educación", 500),
-                      onTap: () {
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
-                      },
-                    ),
-
-                    InkWell(
-                      child: _myCard(Icons.home, "Hogar", 500),
-                      onTap: () {
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
-                      },
-                    ),
-
-                  ],
-                )
               ],
             )
             
@@ -101,7 +86,7 @@ class _categoriasState extends State<categorias> {
     );
   }
 
-  Widget _myCard(IconData _iconCategoria, String _nombreCategoria, int _monto,){
+  Widget _myCard(IconData _iconCategoria, String _nombreCategoria){
 
   return Container(
         width: 200,  // Ancho de la tarjeta
@@ -113,12 +98,58 @@ class _categoriasState extends State<categorias> {
             children: [
               Icon(_iconCategoria, size: 50.0,),
               Text('$_nombreCategoria', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,),),
-              Text('\$ $_monto'),
-
+              SumaCategoriaWidget(
+                categoria: _nombreCategoria,
+                userId: user.uid,
+              ),
             ],
           ),
         ),
    );
 
 }
+}
+
+class SumaCategoriaWidget extends StatelessWidget {
+  final String categoria;
+  final String userId;
+
+  SumaCategoriaWidget({required this.categoria, required this.userId});
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<int>(
+      future: _obtenerSumaCategoria(),
+      builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator(); // Muestra un indicador de carga mientras se obtienen los datos
+        } else if (snapshot.hasError) {
+          return Text("Error: ${snapshot.error}");
+        } else {
+          int sumaCantidad = snapshot.data ?? 0; // Obtiene el resultado o usa 0 si es nulo
+          return Text(
+            '$sumaCantidad',
+            style: TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  Future<int> _obtenerSumaCategoria() async {
+    int sumaCantidad = 0;
+    await FirebaseFirestore.instance
+        .collection('gasto')
+        .where('userId', isEqualTo: userId)
+        .where('categoria', isEqualTo: categoria)
+        .get()
+        .then((value) => value.docs.forEach((element) {
+              sumaCantidad += element.data()!['cantidad'] as int;
+            }));
+    return sumaCantidad;
+  }
 }
