@@ -1,4 +1,5 @@
 import 'package:app_finanzas/models/theme.dart';
+import 'package:app_finanzas/screens/login/SingInPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,15 +11,13 @@ class Configuracion extends StatelessWidget {
     final themeModel = Provider.of<ThemeModel>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Configuración'),
-      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              SizedBox(height: 50.0),
               const Text(
                 'Configuración de Temas',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -43,7 +42,7 @@ class Configuracion extends StatelessWidget {
                 ),
                 child: const Text('Tema Claro'),
               ),
-               ElevatedButton(
+              ElevatedButton(
                 onPressed: () {
                   themeModel.setTheme(darkTheme);
                 },
@@ -52,7 +51,7 @@ class Configuracion extends StatelessWidget {
                 ),
                 child: const Text('Tema Oscuro'),
               ),
-               ElevatedButton(
+              ElevatedButton(
                 onPressed: () {
                   themeModel.setTheme(purpleTheme);
                 },
@@ -60,6 +59,27 @@ class Configuracion extends StatelessWidget {
                   primary: purpleTheme.primaryColor,
                 ),
                 child: const Text('Tema Original'),
+              ),
+              SizedBox(height: 30.0),
+              const Text(
+                'Configuración de Usuario',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text('Resetear Gastos e Ingresos'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SignInPage(),
+                    ),
+                  );
+                },
+                child: const Text('Cerrar Sesión'),
               ),
             ],
           ),
@@ -69,5 +89,3 @@ class Configuracion extends StatelessWidget {
     );
   }
 }
-
-
