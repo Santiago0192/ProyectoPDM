@@ -29,8 +29,8 @@ return GestureDetector(
           Text(
             texto,
             style: const TextStyle(
-              fontSize: 16.0,
-              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0,
             ),
           ),
         ],
