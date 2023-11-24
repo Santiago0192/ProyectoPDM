@@ -15,14 +15,21 @@ class Resumen extends StatefulWidget {
 class _ResumenState extends State<Resumen> {
   final user = FirebaseAuth.instance.currentUser!;
 
-  List<String> categorias = ["Comida", "Transporte", "Entretenimiento","Educación","Hogar","Otros"];
+  List<String> categorias = [
+    "Comida",
+    "Transporte",
+    "Entretenimiento",
+    "EducaciÃ³n",
+    "Hogar",
+    "Otros"
+  ];
 
   int totalGastos = 0;
   int totalIngresos = 0;
   String? _selectedCategoria;
 
   @override
-  void initState(){
+  void initState() {
     getGastos();
     getingresos();
     super.initState();
@@ -34,33 +41,44 @@ class _ResumenState extends State<Resumen> {
     DateTime firstDayOfMonth = DateTime(now.year, now.month, 1);
     DateTime lastDayOfMonth = DateTime(now.year, now.month + 1, 0);
 
-    await FirebaseFirestore.instance.collection('gasto').where('userId', isEqualTo: user.uid).where('fecha', isGreaterThanOrEqualTo: firstDayOfMonth).where('fecha', isLessThanOrEqualTo: lastDayOfMonth).get().then(
-      (value) => value.docs.forEach(
-        (element) {
-          //print(element.reference);
-          //print(user.uid);
-          //docIDs.add(element.reference.id);
-          totalGastos += element.data()!['cantidad'] as int;
-        },
-      ),
-    );
+    await FirebaseFirestore.instance
+        .collection('gasto')
+        .where('userId', isEqualTo: user.uid)
+        .where('fecha', isGreaterThanOrEqualTo: firstDayOfMonth)
+        .where('fecha', isLessThanOrEqualTo: lastDayOfMonth)
+        .get()
+        .then(
+          (value) => value.docs.forEach(
+            (element) {
+              //print(element.reference);
+              //print(user.uid);
+              //docIDs.add(element.reference.id);
+              totalGastos += element.data()!['cantidad'] as int;
+            },
+          ),
+        );
     setState(() {});
   }
 
   Future getingresos() async {
-
     totalIngresos = 0;
     DateTime now = DateTime.now();
     DateTime firstDayOfMonth = DateTime(now.year, now.month, 1);
     DateTime lastDayOfMonth = DateTime(now.year, now.month + 1, 0);
 
-    await FirebaseFirestore.instance.collection('ingreso').where('userId', isEqualTo: user.uid).where('fecha', isGreaterThanOrEqualTo: firstDayOfMonth).where('fecha', isLessThanOrEqualTo: lastDayOfMonth).get().then(
-      (value) => value.docs.forEach(
-        (element) {
-          totalIngresos += element.data()!['cantidad'] as int;
-        },
-      ),
-    );
+    await FirebaseFirestore.instance
+        .collection('ingreso')
+        .where('userId', isEqualTo: user.uid)
+        .where('fecha', isGreaterThanOrEqualTo: firstDayOfMonth)
+        .where('fecha', isLessThanOrEqualTo: lastDayOfMonth)
+        .get()
+        .then(
+          (value) => value.docs.forEach(
+            (element) {
+              totalIngresos += element.data()!['cantidad'] as int;
+            },
+          ),
+        );
     setState(() {});
   }
 
@@ -86,31 +104,31 @@ class _ResumenState extends State<Resumen> {
               ],
             ),
             child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Balance '+DateFormat('MMMM').format(DateTime.now()),
-                    style: TextStyle(
-                      fontSize: 34.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ), // Espaciado entre los textos
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        '\$${totalIngresos - totalGastos}',
-                        style: TextStyle(
-                          fontSize: 50.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Balance de ' + DateFormat('MMMM').format(DateTime.now()),
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
-              ),
+                ), // Espaciado entre los textos
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      '\$${totalIngresos - totalGastos}',
+                      style: TextStyle(
+                        fontSize: 45.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-          
+
           // Gastos e Ingresos
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -138,16 +156,12 @@ class _ResumenState extends State<Resumen> {
                       Text(
                         'Gastos',
                         style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold
-                        ),
+                            fontSize: 24.0, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         '$totalGastos',
                         style: TextStyle(
-                          fontSize: 48.0,
-                          fontWeight: FontWeight.bold
-                        ),
+                            fontSize: 40.0, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -176,16 +190,12 @@ class _ResumenState extends State<Resumen> {
                       Text(
                         'Ingresos',
                         style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold
-                        ),
+                            fontSize: 24.0, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         '$totalIngresos',
                         style: TextStyle(
-                          fontSize: 48.0,
-                          fontWeight: FontWeight.bold
-                        ),
+                            fontSize: 40.0, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
@@ -197,13 +207,13 @@ class _ResumenState extends State<Resumen> {
           // InkWell para Gastos e Ingresos
           InkWell(
             child: buildClickableContainer(
-                icon: Icons.add_circle,
-                texto: 'Ingresos',
-              ),
-              onTap: () {
-                _agregarIngreso(context);
-                },
-              ),
+              icon: Icons.add_circle,
+              texto: 'Ingresos',
+            ),
+            onTap: () {
+              _agregarIngreso(context);
+            },
+          ),
 
           InkWell(
             child: buildClickableContainer(
@@ -221,8 +231,9 @@ class _ResumenState extends State<Resumen> {
 
   void _agregarGasto(BuildContext context) {
     TextEditingController _nuevoGasto = TextEditingController();
-    
-    Future AddGastoDetails(int cant, String categoria) async{
+    TextEditingController _categoria = TextEditingController();
+
+    Future AddGastoDetails(int cant, String categoria) async {
       await FirebaseFirestore.instance.collection('gasto').add({
         'cantidad': cant,
         'categoria': categoria,
@@ -239,15 +250,14 @@ class _ResumenState extends State<Resumen> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              
               TextField(
-                  controller: _nuevoGasto,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.monetization_on),
-                    labelText: "Cantidad",
-                    border: OutlineInputBorder(),
-                  ),
+                controller: _nuevoGasto,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.monetization_on),
+                  labelText: "Cantidad",
+                  border: OutlineInputBorder(),
+                ),
               ),
               SizedBox(
                 height: 20,
@@ -282,12 +292,12 @@ class _ResumenState extends State<Resumen> {
             ),
             TextButton(
               onPressed: () {
-                AddGastoDetails(int.parse(_nuevoGasto.text.trim()),_selectedCategoria!);
+                AddGastoDetails(
+                    int.parse(_nuevoGasto.text.trim()), _selectedCategoria!);
                 Navigator.of(context).pop();
-                getGastos(); 
+                getGastos();
               },
               child: const Text('Agregar Nuevo Gasto'),
-              
             ),
           ],
         );
@@ -296,9 +306,9 @@ class _ResumenState extends State<Resumen> {
   }
 
   void _agregarIngreso(BuildContext context) {
-  TextEditingController _nuevoIngreso = TextEditingController();
+    TextEditingController _nuevoIngreso = TextEditingController();
 
-    Future AddIngresoDetails(int cant) async{
+    Future AddIngresoDetails(int cant) async {
       await FirebaseFirestore.instance.collection('ingreso').add({
         'cantidad': cant,
         'userId': user.uid,
@@ -315,13 +325,13 @@ class _ResumenState extends State<Resumen> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
-                  controller: _nuevoIngreso, // Usar el controlador
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.monetization_on),
-                    labelText: "Cantidad",
-                    border: OutlineInputBorder(),
-                  ),
+                controller: _nuevoIngreso, // Usar el controlador
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.monetization_on),
+                  labelText: "Cantidad",
+                  border: OutlineInputBorder(),
+                ),
               ),
             ],
           ),
@@ -336,7 +346,7 @@ class _ResumenState extends State<Resumen> {
               onPressed: () {
                 AddIngresoDetails(int.parse(_nuevoIngreso.text.trim()));
                 Navigator.of(context).pop();
-                getingresos(); 
+                getingresos();
               },
               child: const Text('Agregar Nuevo Ingreso'),
             ),
@@ -345,5 +355,4 @@ class _ResumenState extends State<Resumen> {
       },
     );
   }
-
 }
