@@ -107,7 +107,7 @@ class _ResumenState extends State<Resumen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Balance de ' + DateFormat('MMMM').format(DateTime.now()),
+                  'Balance ' + DateFormat('MMMM').format(DateTime.now()),
                   style: TextStyle(
                     fontSize: 25.0,
                     fontWeight: FontWeight.bold,
