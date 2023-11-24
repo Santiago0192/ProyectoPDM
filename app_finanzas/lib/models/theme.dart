@@ -79,7 +79,8 @@ ThemeData purpleTheme = ThemeData(
     color: Colors.purple,
   ),
   iconTheme: const IconThemeData(
-      color: Colors.purple), // Cambia el color de los íconos
+    color: Colors.purple
+  ), // Cambia el color de los íconos
   buttonTheme: const ButtonThemeData(
     buttonColor: Colors.purple,
     textTheme: ButtonTextTheme.primary,

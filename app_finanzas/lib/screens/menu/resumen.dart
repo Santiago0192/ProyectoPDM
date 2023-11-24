@@ -15,7 +15,7 @@ class Resumen extends StatefulWidget {
 class _ResumenState extends State<Resumen> {
   final user = FirebaseAuth.instance.currentUser!;
 
-  List<String> categorias = ["Comida", "Transporte", "Entretenimiento","Educacion","Hogar","Otros"];
+  List<String> categorias = ["Comida", "Transporte", "Entretenimiento","Educación","Hogar","Otros"];
 
   int totalGastos = 0;
   int totalIngresos = 0;
@@ -29,7 +29,6 @@ class _ResumenState extends State<Resumen> {
   }
 
   Future getGastos() async {
-
     totalGastos = 0;
     DateTime now = DateTime.now();
     DateTime firstDayOfMonth = DateTime(now.year, now.month, 1);
@@ -200,11 +199,11 @@ class _ResumenState extends State<Resumen> {
             child: buildClickableContainer(
                 icon: Icons.add_circle,
                 texto: 'Ingresos',
-                ),
-                onTap: () {
-                  _agregarIngreso(context);
-                  },
-                ),
+              ),
+              onTap: () {
+                _agregarIngreso(context);
+                },
+              ),
 
           InkWell(
             child: buildClickableContainer(
@@ -222,7 +221,6 @@ class _ResumenState extends State<Resumen> {
 
   void _agregarGasto(BuildContext context) {
     TextEditingController _nuevoGasto = TextEditingController();
-    TextEditingController _categoria = TextEditingController();
     
     Future AddGastoDetails(int cant, String categoria) async{
       await FirebaseFirestore.instance.collection('gasto').add({
