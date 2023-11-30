@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:app_finanzas/models/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class historial extends StatefulWidget {
   const historial({super.key});
@@ -13,17 +16,14 @@ class historial extends StatefulWidget {
 class _historialState extends State<historial> {
   @override
   List historial = [];
+  List direcciones = [];
+
   final user = FirebaseAuth.instance.currentUser!;
 
   @override
   void initState() {
-    //historial = jsonDecode(historial_transacciones);
-    //fin = FirestoreServices().getHist();
-    //FirestoreServices().addHist();
-    //historial = fin.data!.docs;
     super.initState();
     getData();
-    //historial = FirestoreServices().temp;
   }
 
   Future getData() async {
@@ -34,30 +34,70 @@ class _historialState extends State<historial> {
         .then(
           (value) => value.docs.forEach(
             (element) {
-              //print(element.reference);
-              //print(element.data());
-              //print('chacalito');
               historial.add(element.data());
-              //docIDs.add(element.reference.id);
-              //totalGastos += element.data()!['cantidad'] as int;
+              direcciones.add(element.reference.id);
             },
           ),
         );
-    //print(historial.length);
+    print(historial.length);
     setState(() {});
     //return temp;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: (HistorialList(historial: historial)));
+    return Scaffold(
+        body: (HistorialList(historial: historial, direcciones: direcciones)));
   }
 }
 
-class HistorialList extends StatelessWidget {
-  const HistorialList({super.key, required this.historial});
+class HistorialList extends StatefulWidget {
+  const HistorialList(
+      {super.key, required this.historial, required this.direcciones});
 
   final List historial;
+  final List direcciones;
+
+  @override
+  State<HistorialList> createState() => _HistorialListState();
+}
+
+class _HistorialListState extends State<HistorialList> {
+  final TextEditingController textController = TextEditingController();
+  Future updateData(String id, int monto) async {
+    await FirebaseFirestore.instance
+        .collection('gasto')
+        .doc(id)
+        .update({'cantidad': monto});
+  }
+
+  void boxMonto(String id) {
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: const Text('Ingrese cantidad a cambiar:'),
+              content: TextField(
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  icon: Icon(Icons.monetization_on),
+                  labelText: "Cantidad",
+                  border: OutlineInputBorder(),
+                ),
+                controller: textController,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+              ),
+              actions: [
+                ElevatedButton(
+                    onPressed: () {
+                      updateData(id, int.parse(textController.text));
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cambiar'))
+              ],
+            ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +113,7 @@ class HistorialList extends StatelessWidget {
             child: Center(
                 child: Column(children: [
               const Text(
-                'Egresos',
+                'Historial',
                 style: TextStyle(
                   fontSize: 36.0,
                   color: Colors.white,
@@ -83,29 +123,10 @@ class HistorialList extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 70),
                 child: Container(
-                    height: 10,
+                    height: 5,
                     width: 200,
                     color: ThemeModel().currentTheme.iconTheme.color),
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 20),
-                child: Text(
-                  'Ingresos',
-                  style: TextStyle(
-                    fontSize: 36.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 170),
-                child: Container(
-                  height: 10,
-                  width: 300,
-                  color: const Color.fromARGB(255, 84, 183, 201),
-                ),
-              )
             ])),
           ),
           Positioned(
@@ -125,75 +146,26 @@ class HistorialList extends StatelessWidget {
                   separatorBuilder: (context, index) {
                     return const Divider();
                   },
-                  itemCount: historial.length,
+                  itemCount: widget.historial.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text(
-                        historial[index]['categoria'],
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        ),
+                      leading: TextButton(
+                        child: const Icon(Icons.edit),
+                        onPressed: () {
+                          boxMonto(widget.direcciones[index]);
+                        },
                       ),
-                      subtitle: Text(historial[index]['fecha']
+                      title: Text(widget.historial[index]['categoria']),
+                      subtitle: Text(widget.historial[index]['fecha']
                           .toDate()
                           .toString()
                           .substring(0, 10)),
-                      trailing: Text(
-                        '- \$ ${historial[index]['cantidad'].toString()}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
-                        ),
-                      ),
+                      trailing:
+                          Text(widget.historial[index]['cantidad'].toString()),
                     );
                   }),
             ),
           ),
         ]));
-  }
-}
-
-class FirestoreServices {
-  final Query<Map<String, dynamic>> hist =
-      FirebaseFirestore.instance.collection("gasto");
-  final user = FirebaseAuth.instance.currentUser!;
-  List<dynamic> temp = [];
-
-  //
-  //Get
-  Stream<QuerySnapshot> getHist() {
-    final temp = hist.orderBy('fecha', descending: true).snapshots();
-    //getData();
-    return temp;
-  }
-
-  List<dynamic> getAll() {
-    getData();
-    //print(temp);
-    return temp;
-  }
-
-  Future getData() async {
-    await FirebaseFirestore.instance
-        .collection('gasto')
-        .where('userId', isEqualTo: user.uid)
-        .orderBy('fecha', descending: true)
-        .get()
-        .then(
-          (value) => value.docs.forEach(
-            (element) {
-              //print(element.reference);
-              //print(element.data());
-              //print('chacalito');
-              temp.add(element.data());
-              //docIDs.add(element.reference.id);
-              //totalGastos += element.data()!['cantidad'] as int;
-            },
-          ),
-        );
-
-    //print(temp.length);
-    //return temp;
   }
 }
