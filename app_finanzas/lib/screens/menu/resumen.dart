@@ -82,146 +82,149 @@ class _ResumenState extends State<Resumen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(height: MediaQuery.of(context).size.height * 0.10),
-          Container(
-            width: 350.0,
-            height: 140.0,
-            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                ),
-              ],
+      resizeToAvoidBottomInset: false,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: MediaQuery.of(context).size.height * 0.10),
+            Container(
+              width: 350.0,
+              height: 140.0,
+              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Balance ' + DateFormat('MMMM').format(DateTime.now()),
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ), // Espaciado entre los textos
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        '\$${totalIngresos - totalGastos}',
+                        style: TextStyle(
+                          fontSize: 45.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+
+            // Gastos e Ingresos
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(
-                  'Balance ' + DateFormat('MMMM').format(DateTime.now()),
-                  style: TextStyle(
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ), // Espaciado entre los textos
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      '\$${totalIngresos - totalGastos}',
-                      style: TextStyle(
-                        fontSize: 45.0,
-                        fontWeight: FontWeight.bold,
+                Container(
+                  width: 150.0,
+                  height: 150.0,
+                  margin: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
                       ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 8.0),
+                        Text(
+                          'Gastos',
+                          style: TextStyle(
+                              fontSize: 24.0, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '$totalGastos',
+                          style: TextStyle(
+                              fontSize: 40.0, fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
+                ),
+                Container(
+                  width: 150.0,
+                  height: 150.0,
+                  margin: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 8.0),
+                        Text(
+                          'Ingresos',
+                          style: TextStyle(
+                              fontSize: 24.0, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '$totalIngresos',
+                          style: TextStyle(
+                              fontSize: 40.0, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
-          ),
 
-          // Gastos e Ingresos
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                width: 150.0,
-                height: 150.0,
-                margin: EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 8.0),
-                      Text(
-                        'Gastos',
-                        style: TextStyle(
-                            fontSize: 24.0, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        '$totalGastos',
-                        style: TextStyle(
-                            fontSize: 40.0, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
+            // InkWell para Gastos e Ingresos
+            InkWell(
+              child: buildClickableContainer(
+                icon: Icons.add_circle,
+                texto: 'Ingresos',
               ),
-              Container(
-                width: 150.0,
-                height: 150.0,
-                margin: EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 8.0),
-                      Text(
-                        'Ingresos',
-                        style: TextStyle(
-                            fontSize: 24.0, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        '$totalIngresos',
-                        style: TextStyle(
-                            fontSize: 40.0, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
+              onTap: () {
+                _agregarIngreso(context);
+              },
+            ),
+
+            InkWell(
+              child: buildClickableContainer(
+                icon: Icons.remove_circle,
+                texto: 'Gastos',
               ),
-            ],
-          ),
-
-          // InkWell para Gastos e Ingresos
-          InkWell(
-            child: buildClickableContainer(
-              icon: Icons.add_circle,
-              texto: 'Ingresos',
+              onTap: () {
+                _agregarGasto(context);
+              },
             ),
-            onTap: () {
-              _agregarIngreso(context);
-            },
-          ),
-
-          InkWell(
-            child: buildClickableContainer(
-              icon: Icons.remove_circle,
-              texto: 'Gastos',
-            ),
-            onTap: () {
-              _agregarGasto(context);
-            },
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

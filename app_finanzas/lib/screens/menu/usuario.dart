@@ -66,10 +66,10 @@ class Configuracion extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text('Resetear Gastos e Ingresos'),
-              ),
+              // ElevatedButton(
+              //   onPressed: () {},
+              //   child: const Text('Resetear Gastos e Ingresos'),
+              // ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
