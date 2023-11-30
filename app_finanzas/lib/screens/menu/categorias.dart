@@ -10,7 +10,6 @@ class categorias extends StatefulWidget {
 }
 
 class _categoriasState extends State<categorias> {
-  @override
   final user = FirebaseAuth.instance.currentUser!;
 
   Widget build(BuildContext context) {

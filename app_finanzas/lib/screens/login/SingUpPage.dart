@@ -1,17 +1,10 @@
 import 'package:app_finanzas/global/common/toast.dart';
 import 'package:app_finanzas/screens/login/SingInPage.dart';
 import 'package:app_finanzas/funciones/CustomTextField.dart';
-import 'package:app_finanzas/screens/menu/menu.dart';
 import 'package:app_finanzas/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dialogs/flutter_dialogs.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-//Permisos para JSON
-import 'dart:convert';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class SignUpPage extends StatefulWidget {

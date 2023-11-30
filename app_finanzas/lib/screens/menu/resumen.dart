@@ -1,11 +1,7 @@
-//import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:app_finanzas/funciones/ClickContainer.dart';
-import 'package:intl/intl.dart';
 
 class Resumen extends StatefulWidget {
   @override
@@ -37,9 +33,9 @@ class _ResumenState extends State<Resumen> {
 
   Future getGastos() async {
     totalGastos = 0;
-    DateTime now = DateTime.now();
-    DateTime firstDayOfMonth = DateTime(now.year, now.month, 1);
-    DateTime lastDayOfMonth = DateTime(now.year, now.month + 1, 0);
+    // DateTime now = DateTime.now();
+    // DateTime firstDayOfMonth = DateTime(now.year, now.month, 1);
+    // DateTime lastDayOfMonth = DateTime(now.year, now.month + 1, 0);
 
     await FirebaseFirestore.instance
         .collection('gasto')
@@ -59,9 +55,9 @@ class _ResumenState extends State<Resumen> {
 
   Future getingresos() async {
     totalIngresos = 0;
-    DateTime now = DateTime.now();
-    DateTime firstDayOfMonth = DateTime(now.year, now.month, 1);
-    DateTime lastDayOfMonth = DateTime(now.year, now.month + 1, 0);
+    //DateTime now = DateTime.now();
+    // DateTime firstDayOfMonth = DateTime(now.year, now.month, 1);
+    // DateTime lastDayOfMonth = DateTime(now.year, now.month + 1, 0);
 
     await FirebaseFirestore.instance
         .collection('ingreso')
@@ -72,7 +68,7 @@ class _ResumenState extends State<Resumen> {
         .then(
           (value) => value.docs.forEach(
             (element) {
-              totalIngresos += element.data()!['cantidad'] as int;
+              totalIngresos += element.data()['cantidad'] as int;
             },
           ),
         );
