@@ -8,6 +8,9 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:fl_chart/fl_chart.dart';
 
+double maxGasto = 0;
+int numRegistros = 0;
+
 class historial extends StatefulWidget {
   const historial({super.key});
   @override
@@ -25,6 +28,7 @@ class _historialState extends State<historial> {
   @override
   void initState() {
     super.initState();
+    maxGasto = 0;
     getData();
   }
 
@@ -41,6 +45,17 @@ class _historialState extends State<historial> {
             },
           ),
         );
+
+    numRegistros = historial.length;
+
+    for (int i = 0; i < historial.length; i++) {
+      double currentGasto = historial[i]['cantidad'].toDouble();
+
+      if (currentGasto > maxGasto) {
+        maxGasto = currentGasto;
+      }
+    }
+
     print(historial.length);
     setState(() {});
   }
@@ -105,10 +120,10 @@ class _HistorialListState extends State<HistorialList> {
     return Scaffold(
         body: Stack(children: [
       Positioned(
-        bottom: 400,
+        bottom: 450,
         top: 60,
         left: 0,
-        right: 0,
+        right: 20,
         child: Container(
           width: MediaQuery.of(context).size.width / 3,
           height: MediaQuery.of(context).size.height,
@@ -123,17 +138,36 @@ class _HistorialListState extends State<HistorialList> {
                         widget.historial[i]['cantidad'].toDouble(),
                       ),
                   ],
-                  isCurved: true,
+                  //isCurved: true,
                   dotData: FlDotData(show: true),
                   color: Colors.black,
-                  barWidth: 5,
+                  barWidth: 3,
                 ),
               ],
               minX: 0,
-              maxX: 12,
+              maxX: numRegistros.toDouble() - 1,
               minY: 0,
-              maxY: 500,
+              maxY: maxGasto,
               backgroundColor: Colors.white,
+              titlesData: FlTitlesData(
+                bottomTitles: AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
+                /*leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        //getTitlesWidget: leftTitleWidgets,
+                        interval: 1,
+                        reservedSize: 36,
+                      ),
+                    ),*/
+                topTitles: AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
+                rightTitles: AxisTitles(
+                  sideTitles: SideTitles(showTitles: false),
+                ),
+              ),
             ),
           ),
         ),
@@ -164,17 +198,13 @@ class _HistorialListState extends State<HistorialList> {
                       boxMonto(widget.direcciones[index]);
                     },
                   ),
-                  title: Text(widget.historial[index]['categoria'],
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 20)),
+                  title: Text(widget.historial[index]['categoria']),
                   subtitle: Text(widget.historial[index]['fecha']
                       .toDate()
                       .toString()
                       .substring(0, 10)),
-                  trailing: Text(
-                      '-\$' + widget.historial[index]['cantidad'].toString(),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16)),
+                  trailing:
+                      Text(widget.historial[index]['cantidad'].toString()),
                 );
               }),
         ),
