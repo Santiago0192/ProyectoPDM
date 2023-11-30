@@ -1,7 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+//import 'package:app_finanzas/funciones/ClickContainer.dart';
+//import '../../data/historial.json';
+//import 'dart:convert';
+//import 'package:app_finanzas/data/constrants.dart';
+//import 'package:provider/provider.dart';
 import 'package:app_finanzas/models/theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class historial extends StatefulWidget {
   const historial({super.key});
@@ -43,7 +50,7 @@ class _historialState extends State<historial> {
             },
           ),
         );
-    //print(historial.length);
+    print(historial.length);
     setState(() {});
     //return temp;
   }
@@ -128,24 +135,12 @@ class HistorialList extends StatelessWidget {
                   itemCount: historial.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text(
-                        historial[index]['categoria'],
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        ),
-                      ),
+                      title: Text(historial[index]['categoria']),
                       subtitle: Text(historial[index]['fecha']
                           .toDate()
                           .toString()
                           .substring(0, 10)),
-                      trailing: Text(
-                        '- \$ ${historial[index]['cantidad'].toString()}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
-                        ),
-                      ),
+                      trailing: Text(historial[index]['cantidad'].toString()),
                     );
                   }),
             ),
@@ -170,7 +165,7 @@ class FirestoreServices {
 
   List<dynamic> getAll() {
     getData();
-    //print(temp);
+    print(temp);
     return temp;
   }
 
@@ -193,7 +188,7 @@ class FirestoreServices {
           ),
         );
 
-    //print(temp.length);
+    print(temp.length);
     //return temp;
   }
 }

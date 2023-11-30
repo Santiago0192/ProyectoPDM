@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:app_finanzas/funciones/ClickContainer.dart';
 import 'package:intl/intl.dart';
@@ -90,7 +91,7 @@ class _ResumenState extends State<Resumen> {
           Container(
             width: 350.0,
             height: 140.0,
-            padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
+            padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
@@ -106,8 +107,8 @@ class _ResumenState extends State<Resumen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Balance ${DateFormat('MMMM').format(DateTime.now())}',
-                  style: const TextStyle(
+                  'Balance ' + DateFormat('MMMM').format(DateTime.now()),
+                  style: TextStyle(
                     fontSize: 25.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -117,7 +118,7 @@ class _ResumenState extends State<Resumen> {
                   children: [
                     Text(
                       '\$${totalIngresos - totalGastos}',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 45.0,
                         fontWeight: FontWeight.bold,
                       ),
@@ -135,7 +136,7 @@ class _ResumenState extends State<Resumen> {
               Container(
                 width: 150.0,
                 height: 150.0,
-                margin: const EdgeInsets.all(16.0),
+                margin: EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20.0),
@@ -151,15 +152,15 @@ class _ResumenState extends State<Resumen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 8.0),
-                      const Text(
+                      SizedBox(height: 8.0),
+                      Text(
                         'Gastos',
                         style: TextStyle(
                             fontSize: 24.0, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         '$totalGastos',
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontSize: 40.0, fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -169,7 +170,7 @@ class _ResumenState extends State<Resumen> {
               Container(
                 width: 150.0,
                 height: 150.0,
-                margin: const EdgeInsets.all(16.0),
+                margin: EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20.0),
@@ -185,15 +186,15 @@ class _ResumenState extends State<Resumen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 8.0),
-                      const Text(
+                      SizedBox(height: 8.0),
+                      Text(
                         'Ingresos',
                         style: TextStyle(
                             fontSize: 24.0, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         '$totalIngresos',
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontSize: 40.0, fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -229,7 +230,8 @@ class _ResumenState extends State<Resumen> {
   }
 
   void _agregarGasto(BuildContext context) {
-    TextEditingController nuevoGasto = TextEditingController();
+    TextEditingController _nuevoGasto = TextEditingController();
+    TextEditingController _categoria = TextEditingController();
 
     Future AddGastoDetails(int cant, String categoria) async {
       await FirebaseFirestore.instance.collection('gasto').add({
@@ -238,7 +240,6 @@ class _ResumenState extends State<Resumen> {
         'userId': user.uid,
         'fecha': FieldValue.serverTimestamp()
       });
-      setState(() {});
     }
 
     showDialog(
@@ -250,7 +251,7 @@ class _ResumenState extends State<Resumen> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
-                controller: nuevoGasto,
+                controller: _nuevoGasto,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   icon: Icon(Icons.monetization_on),
@@ -258,7 +259,7 @@ class _ResumenState extends State<Resumen> {
                   border: OutlineInputBorder(),
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 20,
               ),
               DropdownButtonFormField<String>(
@@ -292,7 +293,7 @@ class _ResumenState extends State<Resumen> {
             TextButton(
               onPressed: () {
                 AddGastoDetails(
-                    int.parse(nuevoGasto.text.trim()), _selectedCategoria!);
+                    int.parse(_nuevoGasto.text.trim()), _selectedCategoria!);
                 Navigator.of(context).pop();
                 getGastos();
               },
@@ -313,7 +314,6 @@ class _ResumenState extends State<Resumen> {
         'userId': user.uid,
         'fecha': FieldValue.serverTimestamp()
       });
-      setState(() {});
     }
 
     showDialog(
