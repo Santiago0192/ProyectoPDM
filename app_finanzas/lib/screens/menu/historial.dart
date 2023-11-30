@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'package:fl_chart/fl_chart.dart';
+
 class historial extends StatefulWidget {
   const historial({super.key});
   @override
@@ -41,7 +43,6 @@ class _historialState extends State<historial> {
         );
     print(historial.length);
     setState(() {});
-    //return temp;
   }
 
   @override
@@ -101,33 +102,42 @@ class _HistorialListState extends State<HistorialList> {
 
   @override
   Widget build(BuildContext context) {
-    //final themeModel = Provider.of<ThemeModel>(context);
     return Scaffold(
         body: Stack(
-            //color: Colors.white,
             children: [
           Positioned(
-            top: 140.0,
-            left: -250,
+            bottom: 400,
+            top: 60,
+            left: 0,
             right: 0,
-            child: Center(
-                child: Column(children: [
-              const Text(
-                'Historial',
-                style: TextStyle(
-                  fontSize: 36.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+            child: Container(
+              width: MediaQuery.of(context).size.width / 3,
+              height: MediaQuery.of(context).size.height,
+              child: LineChart(
+                LineChartData(
+                  lineBarsData: [
+                    LineChartBarData(
+                      spots: [
+                        for (int i = 0; i < widget.historial.length; i++)
+                          FlSpot(
+                            (i).toDouble(),
+                            widget.historial[i]['cantidad'].toDouble(),
+                          ),
+                      ],
+                      isCurved: true,
+                      dotData: FlDotData(show: true),
+                      color: Colors.black,
+                      barWidth: 5,
+                    ),
+                  ],
+                  minX: 0,
+                  maxX: 12,
+                  minY: 0,
+                  maxY: 500,
+                  backgroundColor: Colors.white,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 70),
-                child: Container(
-                    height: 5,
-                    width: 200,
-                    color: ThemeModel().currentTheme.iconTheme.color),
-              ),
-            ])),
+            ),
           ),
           Positioned(
             bottom: 0,

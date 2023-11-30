@@ -53,7 +53,7 @@ class _ResumenState extends State<Resumen> {
               //print(element.reference);
               //print(user.uid);
               //docIDs.add(element.reference.id);
-              totalGastos += element.data()!['cantidad'] as int;
+              totalGastos += element.data()['cantidad'] as int;
             },
           ),
         );
