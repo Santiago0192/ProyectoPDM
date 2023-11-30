@@ -105,8 +105,8 @@ class _ResumenState extends State<Resumen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Balance ' + DateFormat('MMMM').format(DateTime.now()),
+                  const Text(
+                    'Balance General',
                     style: TextStyle(
                       fontSize: 25.0,
                       fontWeight: FontWeight.bold,
@@ -158,7 +158,7 @@ class _ResumenState extends State<Resumen> {
                               fontSize: 24.0, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          '$totalGastos',
+                          '\$' + '$totalGastos',
                           style: TextStyle(
                               fontSize: 40.0, fontWeight: FontWeight.bold),
                         ),
@@ -192,7 +192,7 @@ class _ResumenState extends State<Resumen> {
                               fontSize: 24.0, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          '$totalIngresos',
+                          '\$' + '$totalIngresos',
                           style: TextStyle(
                               fontSize: 40.0, fontWeight: FontWeight.bold),
                         ),

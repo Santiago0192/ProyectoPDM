@@ -103,79 +103,82 @@ class _HistorialListState extends State<HistorialList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-            children: [
-          Positioned(
-            bottom: 400,
-            top: 60,
-            left: 0,
-            right: 0,
-            child: Container(
-              width: MediaQuery.of(context).size.width / 3,
-              height: MediaQuery.of(context).size.height,
-              child: LineChart(
-                LineChartData(
-                  lineBarsData: [
-                    LineChartBarData(
-                      spots: [
-                        for (int i = 0; i < widget.historial.length; i++)
-                          FlSpot(
-                            (i).toDouble(),
-                            widget.historial[i]['cantidad'].toDouble(),
-                          ),
-                      ],
-                      isCurved: true,
-                      dotData: FlDotData(show: true),
-                      color: Colors.black,
-                      barWidth: 5,
-                    ),
-                  ],
-                  minX: 0,
-                  maxX: 12,
-                  minY: 0,
-                  maxY: 500,
-                  backgroundColor: Colors.white,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 241, 241, 241),
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(20.0),
-                ),
-              ),
-              height: MediaQuery.of(context).size.height * 1 / 2,
-              width: MediaQuery.of(context).size.width,
-              child: ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return const Divider();
-                  },
-                  itemCount: widget.historial.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: TextButton(
-                        child: const Icon(Icons.edit),
-                        onPressed: () {
-                          boxMonto(widget.direcciones[index]);
-                        },
+        body: Stack(children: [
+      Positioned(
+        bottom: 400,
+        top: 60,
+        left: 0,
+        right: 0,
+        child: Container(
+          width: MediaQuery.of(context).size.width / 3,
+          height: MediaQuery.of(context).size.height,
+          child: LineChart(
+            LineChartData(
+              lineBarsData: [
+                LineChartBarData(
+                  spots: [
+                    for (int i = 0; i < widget.historial.length; i++)
+                      FlSpot(
+                        (i).toDouble(),
+                        widget.historial[i]['cantidad'].toDouble(),
                       ),
-                      title: Text(widget.historial[index]['categoria']),
-                      subtitle: Text(widget.historial[index]['fecha']
-                          .toDate()
-                          .toString()
-                          .substring(0, 10)),
-                      trailing:
-                          Text(widget.historial[index]['cantidad'].toString()),
-                    );
-                  }),
+                  ],
+                  isCurved: true,
+                  dotData: FlDotData(show: true),
+                  color: Colors.black,
+                  barWidth: 5,
+                ),
+              ],
+              minX: 0,
+              maxX: 12,
+              minY: 0,
+              maxY: 500,
+              backgroundColor: Colors.white,
             ),
           ),
-        ]));
+        ),
+      ),
+      Positioned(
+        bottom: 0,
+        left: 0,
+        right: 0,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Color.fromARGB(255, 241, 241, 241),
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(20.0),
+            ),
+          ),
+          height: MediaQuery.of(context).size.height * 1 / 2,
+          width: MediaQuery.of(context).size.width,
+          child: ListView.separated(
+              separatorBuilder: (context, index) {
+                return const Divider();
+              },
+              itemCount: widget.historial.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: TextButton(
+                    child: const Icon(Icons.edit),
+                    onPressed: () {
+                      boxMonto(widget.direcciones[index]);
+                    },
+                  ),
+                  title: Text(widget.historial[index]['categoria'],
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20)),
+                  subtitle: Text(widget.historial[index]['fecha']
+                      .toDate()
+                      .toString()
+                      .substring(0, 10)),
+                  trailing: Text(
+                      '-\$' + widget.historial[index]['cantidad'].toString(),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16)),
+                );
+              }),
+        ),
+      ),
+    ]));
   }
 }

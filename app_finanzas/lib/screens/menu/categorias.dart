@@ -14,100 +14,76 @@ class _categoriasState extends State<categorias> {
   final user = FirebaseAuth.instance.currentUser!;
 
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body: 
-        ListView(
+    return Scaffold(
+        body: ListView(
+      children: [
+        Column(
           children: [
-            Column(
+            Row(
               children: [
-                Row(
-                  children: [
-                    InkWell(
-                      child: _myCard(Icons.food_bank, "Comida"),
-                      onTap: () {
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
-                      },
-                    ),
-
-                    InkWell(
-                      child: _myCard(Icons.car_rental, "Transporte"),
-                      onTap: () {
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
-                      },
-                    ),
-
-                  ],
+                InkWell(
+                  child: _myCard(Icons.food_bank, "Comida"),
                 ),
-
-
-                //*****
-                Row(
-                  children: [
-                    InkWell(
-                      child: _myCard(Icons.party_mode, "Otros"),
-                      onTap: () {
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
-                      },
-                    ),
-
-                    InkWell(
-                      child: _myCard(Icons.movie, "Entretenimiento"),
-                      onTap: () {
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
-                      },
-                    ),
-
-                  ],
-                ),
-
-                Row(
-                  children: [
-                    InkWell(
-                      child: _myCard(Icons.school, "Educación"),
-                      onTap: () {
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
-                      },
-                    ),
-
-                    InkWell(
-                      child: _myCard(Icons.home, "Hogar"),
-                      onTap: () {
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const Receta1(),));
-                      },
-                    ),
-
-                  ],
+                InkWell(
+                  child: _myCard(Icons.car_rental, "Transporte"),
                 ),
               ],
-            )
-            
+            ),
+            Row(
+              children: [
+                InkWell(
+                  child: _myCard(Icons.party_mode, "Otros"),
+                ),
+                InkWell(
+                  child: _myCard(Icons.movie, "Entretenimiento"),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                InkWell(
+                  child: _myCard(Icons.school, "Educación"),
+                ),
+                InkWell(
+                  child: _myCard(Icons.home, "Hogar"),
+                ),
+              ],
+            ),
           ],
         )
-    );
+      ],
+    ));
   }
 
-  Widget _myCard(IconData _iconCategoria, String _nombreCategoria){
-
-  return Container(
-        width: 200,  // Ancho de la tarjeta
-        height: 250, // Alto de la tarjeta
-        child: Card(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(_iconCategoria, size: 50.0,),
-              Text('$_nombreCategoria', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,),),
-              SumaCategoriaWidget(
-                categoria: _nombreCategoria,
-                userId: user.uid,
+  Widget _myCard(IconData _iconCategoria, String _nombreCategoria) {
+    return Container(
+      width: 200, // Ancho de la tarjeta
+      height: 250, // Alto de la tarjeta
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              _iconCategoria,
+              size: 50.0,
+            ),
+            Text(
+              '$_nombreCategoria',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
-            ],
-          ),
+            ),
+            SumaCategoriaWidget(
+              categoria: _nombreCategoria,
+              userId: user.uid,
+            ),
+          ],
         ),
-   );
-
-}
+      ),
+    );
+  }
 }
 
 class SumaCategoriaWidget extends StatelessWidget {
@@ -126,9 +102,10 @@ class SumaCategoriaWidget extends StatelessWidget {
         } else if (snapshot.hasError) {
           return Text("Error: ${snapshot.error}");
         } else {
-          int sumaCantidad = snapshot.data ?? 0; // Obtiene el resultado o usa 0 si es nulo
+          int sumaCantidad =
+              snapshot.data ?? 0; // Obtiene el resultado o usa 0 si es nulo
           return Text(
-            '$sumaCantidad',
+            '\$' + '$sumaCantidad',
             style: TextStyle(
               fontSize: 18.0,
               fontWeight: FontWeight.bold,
