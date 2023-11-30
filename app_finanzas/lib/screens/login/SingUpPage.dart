@@ -1,3 +1,5 @@
+// ignore_for_file: file_names, unused_field
+
 import 'package:app_finanzas/global/common/toast.dart';
 import 'package:app_finanzas/screens/login/SingInPage.dart';
 import 'package:app_finanzas/funciones/CustomTextField.dart';
@@ -8,7 +10,10 @@ import 'package:flutter_dialogs/flutter_dialogs.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _SignUpPageState createState() => _SignUpPageState();
 }
 
@@ -72,125 +77,123 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  margin: const EdgeInsets.all(16.0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        const Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 16.0),
-                        CustomTextField(
-                          labelText: 'Nombre',
-                          prefixIcon: Icons.person,
-                          keyboardType: TextInputType.text,
-                          controller: _nombreController,
-                        ),
-                        const SizedBox(height: 16.0),
-                        CustomTextField(
-                          labelText: 'Correo',
-                          prefixIcon: Icons.email,
-                          keyboardType: TextInputType.text, //emailAddress,
-                          controller: _emailController,
-                        ),
-                        const SizedBox(height: 16.0),
-                        CustomTextField(
-                          labelText: 'Contraseña',
-                          prefixIcon: Icons.lock,
-                          keyboardType: TextInputType.text,
-                          obscureText: true,
-                          controller: _contraController,
-                        ),
-                        const SizedBox(height: 16.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Checkbox(
-                              value: _isChecked,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  _isChecked = value ?? false;
-                                  if (_isChecked) {
-                                    _showPermissionDialog();
-                                  }
-                                });
-                              },
-                            ),
-                            Text(
-                              'Acepto los Términos y Condiciones',
-                            ),
-                            SizedBox(width: 16.0),
-                            _isChecked
-                                ? Icon(
-                                    Icons.check_circle,
-                                    color: Colors.green,
-                                    size: 24.0,
-                                  )
-                                : Container(),
-                          ],
-                        ),
-                        const SizedBox(height: 16.0),
-                        ElevatedButton(
-                          onPressed: () {
-                            _signUp(); // Llama a la función para guardar datos
-
-                            // Muestra un SnackBar
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Usuario guardado'),
-                                duration: Duration(seconds: 2),
-                              ),
-                            );
-                            // Navega a la página de inicio de sesión
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SignInPage(),
-                              ),
-                            );
-                          },
-                          child: const Text('Guardar'),
-                        ),
-                        SizedBox(height: 16.0),
-                      ],
-                    ),
-                  ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
-                SizedBox(height: 16.0),
-                TextButton(
-                  onPressed: () {
-                    // Navegar a la página de inicio de sesión
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SignInPage(),
+                margin: const EdgeInsets.all(16.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          fontSize: 40.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    );
-                  },
-                  child: Text(
-                    '¿Ya tienes una cuenta? SIGN IN',
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                    ),
+                      const SizedBox(height: 16.0),
+                      CustomTextField(
+                        labelText: 'Nombre',
+                        prefixIcon: Icons.person,
+                        keyboardType: TextInputType.text,
+                        controller: _nombreController,
+                      ),
+                      const SizedBox(height: 16.0),
+                      CustomTextField(
+                        labelText: 'Correo',
+                        prefixIcon: Icons.email,
+                        keyboardType: TextInputType.text, //emailAddress,
+                        controller: _emailController,
+                      ),
+                      const SizedBox(height: 16.0),
+                      CustomTextField(
+                        labelText: 'Contraseña',
+                        prefixIcon: Icons.lock,
+                        keyboardType: TextInputType.text,
+                        obscureText: true,
+                        controller: _contraController,
+                      ),
+                      const SizedBox(height: 16.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Checkbox(
+                            value: _isChecked,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                _isChecked = value ?? false;
+                                if (_isChecked) {
+                                  _showPermissionDialog();
+                                }
+                              });
+                            },
+                          ),
+                          const Text(
+                            'Acepto los Términos y Condiciones',
+                          ),
+                          const SizedBox(width: 16.0),
+                          _isChecked
+                              ? const Icon(
+                                  Icons.check_circle,
+                                  color: Colors.green,
+                                  size: 24.0,
+                                )
+                              : Container(),
+                        ],
+                      ),
+                      const SizedBox(height: 16.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          _signUp(); // Llama a la función para guardar datos
+
+                          // Muestra un SnackBar
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Usuario guardado'),
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                          // Navega a la página de inicio de sesión
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SignInPage(),
+                            ),
+                          );
+                        },
+                        child: const Text('Guardar'),
+                      ),
+                      const SizedBox(height: 16.0),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 16.0),
+              TextButton(
+                onPressed: () {
+                  // Navegar a la página de inicio de sesión
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SignInPage(),
+                    ),
+                  );
+                },
+                child: const Text(
+                  '¿Ya tienes una cuenta? SIGN IN',
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -202,6 +205,7 @@ class _SignUpPageState extends State<SignUpPage> {
       isSigningUp = true;
     });
 
+    // ignore: unused_local_variable
     String nombre = _nombreController.text;
     String email = _emailController.text;
     String contrasena = _contraController.text;
@@ -213,6 +217,7 @@ class _SignUpPageState extends State<SignUpPage> {
     });
     if (user != null) {
       showToast(message: "User is successfully created");
+      // ignore: use_build_context_synchronously
       Navigator.pushNamed(context, "/home");
     } else {
       showToast(message: "Some error happend");
