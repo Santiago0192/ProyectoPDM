@@ -198,13 +198,17 @@ class _HistorialListState extends State<HistorialList> {
                       boxMonto(widget.direcciones[index]);
                     },
                   ),
-                  title: Text(widget.historial[index]['categoria']),
+                  title: Text(widget.historial[index]['categoria'],
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold)),
                   subtitle: Text(widget.historial[index]['fecha']
                       .toDate()
                       .toString()
                       .substring(0, 10)),
-                  trailing:
-                      Text(widget.historial[index]['cantidad'].toString()),
+                  trailing: Text(
+                      '-\$' + widget.historial[index]['cantidad'].toString(),
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold)),
                 );
               }),
         ),
