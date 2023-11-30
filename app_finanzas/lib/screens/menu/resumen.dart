@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:app_finanzas/funciones/ClickContainer.dart';
 
 class Resumen extends StatefulWidget {
+  const Resumen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _ResumenState createState() => _ResumenState();
 }
 
@@ -44,6 +47,7 @@ class _ResumenState extends State<Resumen> {
         //.where('fecha', isLessThanOrEqualTo: lastDayOfMonth)
         .get()
         .then(
+          // ignore: avoid_function_literals_in_foreach_calls
           (value) => value.docs.forEach(
             (element) {
               totalGastos += element.data()['cantidad'] as int;
@@ -66,6 +70,7 @@ class _ResumenState extends State<Resumen> {
         //.where('fecha', isLessThanOrEqualTo: lastDayOfMonth)
         .get()
         .then(
+          // ignore: avoid_function_literals_in_foreach_calls
           (value) => value.docs.forEach(
             (element) {
               totalIngresos += element.data()['cantidad'] as int;
@@ -86,7 +91,7 @@ class _ResumenState extends State<Resumen> {
             Container(
               width: 350.0,
               height: 140.0,
-              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10.0),
@@ -113,7 +118,7 @@ class _ResumenState extends State<Resumen> {
                     children: [
                       Text(
                         '\$${totalIngresos - totalGastos}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 45.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -131,7 +136,7 @@ class _ResumenState extends State<Resumen> {
                 Container(
                   width: 150.0,
                   height: 150.0,
-                  margin: EdgeInsets.all(16.0),
+                  margin: const EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20.0),
@@ -147,15 +152,15 @@ class _ResumenState extends State<Resumen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(height: 8.0),
-                        Text(
+                        const SizedBox(height: 8.0),
+                        const Text(
                           'Gastos',
                           style: TextStyle(
                               fontSize: 24.0, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          '\$' + '$totalGastos',
-                          style: TextStyle(
+                          '\$'  '$totalGastos',
+                          style: const TextStyle(
                               fontSize: 40.0, fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -165,7 +170,7 @@ class _ResumenState extends State<Resumen> {
                 Container(
                   width: 150.0,
                   height: 150.0,
-                  margin: EdgeInsets.all(16.0),
+                  margin: const EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20.0),
@@ -181,15 +186,15 @@ class _ResumenState extends State<Resumen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(height: 8.0),
-                        Text(
+                        const SizedBox(height: 8.0),
+                        const Text(
                           'Ingresos',
                           style: TextStyle(
                               fontSize: 24.0, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          '\$' + '$totalIngresos',
-                          style: TextStyle(
+                          '\$'  '$totalIngresos',
+                          style: const TextStyle(
                               fontSize: 40.0, fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -226,9 +231,10 @@ class _ResumenState extends State<Resumen> {
   }
 
   void _agregarGasto(BuildContext context) {
-    TextEditingController _nuevoGasto = TextEditingController();
-    TextEditingController _categoria = TextEditingController();
+    TextEditingController nuevoGasto = TextEditingController();
+    //TextEditingController categoria = TextEditingController();
 
+    // ignore: non_constant_identifier_names
     Future AddGastoDetails(int cant, String categoria) async {
       await FirebaseFirestore.instance.collection('gasto').add({
         'cantidad': cant,
@@ -247,7 +253,7 @@ class _ResumenState extends State<Resumen> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
-                controller: _nuevoGasto,
+                controller: nuevoGasto,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   icon: Icon(Icons.monetization_on),
@@ -255,7 +261,7 @@ class _ResumenState extends State<Resumen> {
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               DropdownButtonFormField<String>(
@@ -289,7 +295,7 @@ class _ResumenState extends State<Resumen> {
             ElevatedButton(
               onPressed: () {
                 AddGastoDetails(
-                    int.parse(_nuevoGasto.text.trim()), _selectedCategoria!);
+                    int.parse(nuevoGasto.text.trim()), _selectedCategoria!);
                 Navigator.of(context).pop();
                 getGastos();
               },
@@ -302,8 +308,9 @@ class _ResumenState extends State<Resumen> {
   }
 
   void _agregarIngreso(BuildContext context) {
-    TextEditingController _nuevoIngreso = TextEditingController();
+    TextEditingController nuevoIngreso = TextEditingController();
 
+    // ignore: non_constant_identifier_names
     Future AddIngresoDetails(int cant) async {
       await FirebaseFirestore.instance.collection('ingreso').add({
         'cantidad': cant,
@@ -321,7 +328,7 @@ class _ResumenState extends State<Resumen> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
-                controller: _nuevoIngreso, // Usar el controlador
+                controller: nuevoIngreso, // Usar el controlador
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   icon: Icon(Icons.monetization_on),
@@ -340,7 +347,7 @@ class _ResumenState extends State<Resumen> {
             ),
             ElevatedButton(
               onPressed: () {
-                AddIngresoDetails(int.parse(_nuevoIngreso.text.trim()));
+                AddIngresoDetails(int.parse(nuevoIngreso.text.trim()));
                 Navigator.of(context).pop();
                 getingresos();
               },

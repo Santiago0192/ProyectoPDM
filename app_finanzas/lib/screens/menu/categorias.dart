@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+// ignore: camel_case_types
 class categorias extends StatefulWidget {
   const categorias({super.key});
 
@@ -9,9 +10,11 @@ class categorias extends StatefulWidget {
   State<categorias> createState() => _categoriasState();
 }
 
+// ignore: camel_case_types
 class _categoriasState extends State<categorias> {
   final user = FirebaseAuth.instance.currentUser!;
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
@@ -54,8 +57,8 @@ class _categoriasState extends State<categorias> {
     ));
   }
 
-  Widget _myCard(IconData _iconCategoria, String _nombreCategoria) {
-    return Container(
+  Widget _myCard(IconData iconCategoria, String nombreCategoria) {
+    return SizedBox(
       width: 200, // Ancho de la tarjeta
       height: 250, // Alto de la tarjeta
       child: Card(
@@ -64,18 +67,18 @@ class _categoriasState extends State<categorias> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Icon(
-              _iconCategoria,
+              iconCategoria,
               size: 50.0,
             ),
             Text(
-              '$_nombreCategoria',
-              style: TextStyle(
+              nombreCategoria,
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
             SumaCategoriaWidget(
-              categoria: _nombreCategoria,
+              categoria: nombreCategoria,
               userId: user.uid,
             ),
           ],
@@ -89,7 +92,8 @@ class SumaCategoriaWidget extends StatelessWidget {
   final String categoria;
   final String userId;
 
-  SumaCategoriaWidget({required this.categoria, required this.userId});
+  const SumaCategoriaWidget(
+      {super.key, required this.categoria, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -97,15 +101,15 @@ class SumaCategoriaWidget extends StatelessWidget {
       future: _obtenerSumaCategoria(),
       builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // Muestra un indicador de carga mientras se obtienen los datos
+          return const CircularProgressIndicator(); // Muestra un indicador de carga mientras se obtienen los datos
         } else if (snapshot.hasError) {
           return Text("Error: ${snapshot.error}");
         } else {
           int sumaCantidad =
               snapshot.data ?? 0; // Obtiene el resultado o usa 0 si es nulo
           return Text(
-            '\$' + '$sumaCantidad',
-            style: TextStyle(
+            '\$' '$sumaCantidad',
+            style: const TextStyle(
               fontSize: 18.0,
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -123,8 +127,9 @@ class SumaCategoriaWidget extends StatelessWidget {
         .where('userId', isEqualTo: userId)
         .where('categoria', isEqualTo: categoria)
         .get()
+        // ignore: avoid_function_literals_in_foreach_calls
         .then((value) => value.docs.forEach((element) {
-              sumaCantidad += element.data()!['cantidad'] as int;
+              sumaCantidad += element.data()['cantidad'] as int;
             }));
     return sumaCantidad;
   }
