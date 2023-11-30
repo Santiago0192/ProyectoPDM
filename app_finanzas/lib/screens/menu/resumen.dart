@@ -44,15 +44,12 @@ class _ResumenState extends State<Resumen> {
     await FirebaseFirestore.instance
         .collection('gasto')
         .where('userId', isEqualTo: user.uid)
-        .where('fecha', isGreaterThanOrEqualTo: firstDayOfMonth)
-        .where('fecha', isLessThanOrEqualTo: lastDayOfMonth)
+        //.where('fecha', isGreaterThanOrEqualTo: firstDayOfMonth)
+        //.where('fecha', isLessThanOrEqualTo: lastDayOfMonth)
         .get()
         .then(
           (value) => value.docs.forEach(
             (element) {
-              //print(element.reference);
-              //print(user.uid);
-              //docIDs.add(element.reference.id);
               totalGastos += element.data()['cantidad'] as int;
             },
           ),
@@ -69,8 +66,8 @@ class _ResumenState extends State<Resumen> {
     await FirebaseFirestore.instance
         .collection('ingreso')
         .where('userId', isEqualTo: user.uid)
-        .where('fecha', isGreaterThanOrEqualTo: firstDayOfMonth)
-        .where('fecha', isLessThanOrEqualTo: lastDayOfMonth)
+        //.where('fecha', isGreaterThanOrEqualTo: firstDayOfMonth)
+        //.where('fecha', isLessThanOrEqualTo: lastDayOfMonth)
         .get()
         .then(
           (value) => value.docs.forEach(
